@@ -1,0 +1,19 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'cooking/style.css' %}">
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>Рецепты супов</title>
+    </head>
+
+    <body>
+
+        <a href="{% url 'cooking:ingredients'%}">Список ингредиентов</a>
+        <a href="{% url 'cooking:makesoup'%}">Приготовить супъ</a>
+
+    </body>
+</html>

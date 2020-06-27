@@ -1,0 +1,39 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'cooking/style.css' %}">
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>Сделать супъ</title>
+    </head>
+
+    <body>
+
+        <form action="{% url 'cooking:soupinfo' %}" method="post">
+        {% csrf_token %}
+            <select name="ingredient1" size="3" multiple>
+            {% for ingredient in ingredient_list %}
+                <option selected value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
+
+            {% endfor %}
+            </select>
+
+            <select name="ingredient2" size="3" multiple>
+            {% for ingredient in ingredient_list %}
+                <option selected value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
+
+            {% endfor %}
+            </select>
+
+            <input type="submit" name="soup" id="ingredient" value="Рассчитать характеристики">
+        </form><br>
+        <a href="/cooking">Вернуться обратно</a>
+
+    </body>
+</html>
+
+
+
+

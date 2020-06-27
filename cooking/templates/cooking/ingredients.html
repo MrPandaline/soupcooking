@@ -1,0 +1,28 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'cooking/style.css' %}">
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>Ингредиенты</title>
+
+    </head>
+
+    <body>
+        {% if ingredient_list %}
+
+            {% for ingredient in ingredient_list %}
+                <a href="{% url 'cooking:detail' ingredient.id %}">{{ ingredient.ingredient_name }}</a><br>
+            {% endfor%}
+            <br>
+            <a href="/cooking">Вернуться обратно</a>
+
+        {% else %}
+            <p>Ингредиентов пока нет</p>
+            <a href="/cooking">Вернуться обратно</a>
+
+        {% endif %}
+    </body>
+</html>

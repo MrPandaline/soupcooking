@@ -1,0 +1,24 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'cooking/style.css' %}">
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>Ингредиент {{ingredient.ingredient_name}}</title>
+    </head>
+
+    <body>
+
+        <h4>{{ ingredient.ingredient_name }}</h4>
+        <a>Описание: {{ingredient.ingredient_description}}</a><br>
+        <a>Эффект: {{ingredient.ingredient_effect}}</a><br>
+        <a>Цвет: {{ingredient.ingredient_color}}</a><br>
+        <a>Масса: {{ingredient.ingredient_weight}}</a><br>
+        <a href="/cooking/ingredient">Вернуться обратно</a>
+
+
+
+    </body>
+</html>
