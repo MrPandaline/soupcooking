@@ -7,6 +7,7 @@ class Ingredient(models.Model):
     ingredient_effect = models.CharField(max_length=20)
     ingredient_color = models.CharField(max_length=10)
     ingredient_weight = models.IntegerField()
+    ingredient_coefficient = models.IntegerField()
 
     def __str__(self):
         return self.ingredient_name

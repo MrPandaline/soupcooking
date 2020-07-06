@@ -10,5 +10,6 @@ urlpatterns = [
     path('ingredient/<int:pk>', views.DetailView.as_view(), name='detail'),
     path('makesoup/', views.MakeSoupView.as_view(), name='makesoup'),
     path('makesoup/soupinfo/', views.soupinfo, name='soupinfo'),
-    path('api/', views.hello, name='hello')
+    path('api/', views.hello, name='hello'),
+    #path('error/', views.errors, name='error'),
 ]
