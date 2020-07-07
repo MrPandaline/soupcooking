@@ -15,14 +15,14 @@
         {% csrf_token %}
             <select name="ingredient1" size="3" multiple>
             {% for ingredient in ingredient_list %}
-                <option selected value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
+                <option value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
 
             {% endfor %}
             </select>
 
             <select name="ingredient2" size="3" multiple>
             {% for ingredient in ingredient_list %}
-                <option selected value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
+                <option value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
 
             {% endfor %}
             </select>
