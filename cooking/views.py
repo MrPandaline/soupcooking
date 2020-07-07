@@ -58,7 +58,7 @@ def soupinfo(request):
 
     mass = ingrWeight_1 + ingrWeight_2 + 5
 
-    if mass > 50 or mass < 10 :
+    if mass > 50 or mass < 10:
        return HttpResponse("Суп не удовлетворяет требованиям")
 
     else:
@@ -106,7 +106,12 @@ def soupinfo(request):
 
 
 
-        return render(request, 'cooking/soupinfo.html', { 'soupColor1':ingr1_color, 'soupColor2':ingr2_color, 'effectDuration':effectduration, 'rarely':soupRarely, 'soupEffect':soupEffect, 'soupWeight':mass})
+        return render(request, 'cooking/soupinfo.html', {'soupColor1': ingr1_color,
+                                                          'soupColor2': ingr2_color,
+                                                          'effectDuration': effectduration,
+                                                          'rarely': soupRarely,
+                                                          'soupEffect': soupEffect,
+                                                          'soupWeight': mass})
 
 
 @require_POST
