@@ -13,14 +13,14 @@
 
         <form action="{% url 'cooking:soupinfo' %}" method="post">
         {% csrf_token %}
-            <select name="ingredient1" size="3" multiple>
+            <select name="ingredient1" size="3" required>
             {% for ingredient in ingredient_list %}
                 <option value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
 
             {% endfor %}
             </select>
 
-            <select name="ingredient2" size="3" multiple>
+            <select name="ingredient2" size="3" required>
             {% for ingredient in ingredient_list %}
                 <option value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
 
