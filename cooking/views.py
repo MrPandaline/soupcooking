@@ -5,6 +5,7 @@ from .models import Ingredient
 from django.views import generic
 from django.http import HttpResponse
 import random
+from django.views.decorators.csrf import csrf_exempt
 
 # Просто отрисовочка шаблона
 class IndexView(generic.TemplateView):
@@ -99,6 +100,6 @@ def soupinfo(request):
 
         return render(request, 'cooking/soupinfo.html', { 'soupColor1':ingr1_color, 'soupColor2':ingr2_color, 'effectDuration':effectduration, 'rarely':soupRarely, 'soupEffect':soupEffect, 'soupWeight':mass})
 
-
+@csrf_exempt
 def hello(request):
     return HttpResponse('pong')
