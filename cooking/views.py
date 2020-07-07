@@ -40,20 +40,22 @@ class MakeSoupView(generic.ListView):
         return Ingredient.objects.all()
 
 def soupinfo(request):
+    try:
+        ingredient_1 = Ingredient.objects.get(pk=request.POST['ingredient1'])
+        ingrEffect_1 = ingredient_1.ingredient_effect
+        ingr1_color = ingredient_1.ingredient_color
+        ingrWeight_1 = ingredient_1.ingredient_weight
+        ingrCoeff_1 = ingredient_1.ingredient_coefficient
 
-    ingredient_1 = Ingredient.objects.get(pk=request.POST['ingredient1'])
-    ingrEffect_1 = ingredient_1.ingredient_effect
-    ingr1_color = ingredient_1.ingredient_color
-    ingrWeight_1 = ingredient_1.ingredient_weight
-    ingrCoeff_1 = ingredient_1.ingredient_coefficient
 
 
-
-    ingredient_2 = Ingredient.objects.get(pk=request.POST['ingredient2'])
-    ingrEffect_2 = ingredient_2.ingredient_effect
-    ingr2_color = ingredient_2.ingredient_color
-    ingrWeight_2 = ingredient_2.ingredient_weight
-    ingrCoeff_2 = ingredient_2.ingredient_coefficient
+        ingredient_2 = Ingredient.objects.get(pk=request.POST['ingredient2'])
+        ingrEffect_2 = ingredient_2.ingredient_effect
+        ingr2_color = ingredient_2.ingredient_color
+        ingrWeight_2 = ingredient_2.ingredient_weight
+        ingrCoeff_2 = ingredient_2.ingredient_coefficient
+    except MultiValueDictKeyError:
+        return HttpResponse("Вы не установили ингредиенты")
 
     mass = ingrWeight_1 + ingrWeight_2 + 5
 
