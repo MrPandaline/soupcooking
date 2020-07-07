@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '26.34.168.37',
-    '127.0.0.1'
+    '127.0.0.1',
+    'soupcookers.pythonanywhere.com'
 ]
 
 
