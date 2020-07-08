@@ -103,12 +103,49 @@ def soupinfo(request):
         else:
             soupEffect = ingrEffect_2
 
-        if ingr1_color == ingr2_color:
-            return render(request, 'cooking/soupinfo.html', {'soupColor1': ingr1_color,
-                                                             'effectDuration': effectduration,
-                                                             'rarely': soupRarely,
-                                                             'soupEffect': soupEffect,
-                                                             'soupWeight': mass})
+        R_1 = int(ingr1_color[0:2], 16)
+        G_1 = int(ingr1_color[2:4], 16)
+        B_1 = int(ingr1_color[4:], 16)
+
+        R_2 = int(ingr2_color[0:2], 16)
+        G_2 = int(ingr2_color[2:4], 16)
+        B_2 = int(ingr2_color[4:], 16)
+
+        if R_1 + R_2 > 255:
+            Soup_R = hex(255)
+        else:
+            if len(str(R_1 + R_2)) == 1:
+                Soup_R = '0' + hex(R_1 + R_2)
+            else:
+                Soup_R = hex(R_1 + R_2)
+
+        if G_1 + G_2 > 255:
+            Soup_G = hex(255)
+        else:
+            if len(str(G_1 + G_2)) == 1:
+                Soup_G = '0' + hex(G_1 + G_2)
+            else:
+                Soup_G = hex(G_1 + G_2)
+
+        if B_1 + B_2 > 255:
+            Soup_B = hex(255)
+        else:
+            if len(str(B_1 + B_2)) == 1:
+                Soup_B ='0' + hex(B_1 + B_2)
+            else:
+                Soup_B = hex(B_1 + B_2)
+
+
+
+        SoupColor = Soup_R + Soup_G + Soup_B
+        SoupColor = SoupColor.replace("0x", "")
+        #if ingr1_color == ingr2_color:
+        return render(request, 'cooking/soupinfo.html', {'soupColor': SoupColor,
+                                                         'effectDuration': effectduration,
+                                                         'rarely': soupRarely,
+                                                         'soupEffect': soupEffect,
+                                                         'soupWeight': mass})
+"""
         else:
             return render(request, 'cooking/soupinfo.html', {'soupColor1': ingr1_color,
                                                              'soupColor2': ingr2_color,
@@ -116,7 +153,7 @@ def soupinfo(request):
                                                              'rarely': soupRarely,
                                                              'soupEffect': soupEffect,
                                                              'soupWeight': mass})
-
+"""
 
 @require_POST
 @csrf_exempt
