@@ -108,34 +108,33 @@ def soupinfo(request):
         ingrediens_mass = ingredient1_mass + ingredient2_mass
 
 
-        color1_coeff = round(ingredient1_mass / ingrediens_mass, 2)
-        color2_coeff = round(ingredient2_mass / ingrediens_mass, 2)
-
-        R_1 = int(ingr1_color[0:2], 16) * color1_coeff
-        G_1 = int(ingr1_color[2:4], 16) * color1_coeff
-        B_1 = int(ingr1_color[4:], 16) * color1_coeff
-
-        R_2 = int(ingr2_color[0:2], 16) * color2_coeff
-        G_2 = int(ingr2_color[2:4], 16) * color2_coeff
-        B_2 = int(ingr2_color[4:], 16) * color2_coeff
 
 
-        if len(hex(round((R_1 + R_2) / 2))) == 1:
-            Soup_R = '0' + hex(round((R_1 + R_2) / 2))
+        R_1 = int(ingr1_color[0:2], 16) * ingredient1_mass
+        G_1 = int(ingr1_color[2:4], 16) * ingredient1_mass
+        B_1 = int(ingr1_color[4:], 16) * ingredient1_mass
+
+        R_2 = int(ingr2_color[0:2], 16) * ingredient2_mass
+        G_2 = int(ingr2_color[2:4], 16) * ingredient2_mass
+        B_2 = int(ingr2_color[4:], 16) * ingredient2_mass
+
+
+        if len(hex(round((R_1 + R_2) / ingrediens_mass))) == 1:
+            Soup_R = '0' + hex(round((R_1 + R_2) / ingrediens_mass))
         else:
-            Soup_R = hex(round((R_1 + R_2) / 2))
+            Soup_R = hex(round((R_1 + R_2) / ingrediens_mass))
 
 
-        if len(hex(round((G_1 + G_2) / 2))) == 1:
-            Soup_G = '0' + hex(round((G_1 + G_2) / 2))
+        if len(hex(round((G_1 + G_2) / ingrediens_mass))) == 1:
+            Soup_G = '0' + hex(round((G_1 + G_2) / ingrediens_mass))
         else:
-            Soup_G = hex(round((G_1 + G_2) / 2))
+            Soup_G = hex(round((G_1 + G_2) / ingrediens_mass))
 
 
-        if len(hex(round((B_1 + B_2) / 2))) == 1:
-            Soup_B = '0' + hex(round((B_1 + B_2) / 2))
+        if len(hex(round((B_1 + B_2) / ingrediens_mass))) == 1:
+            Soup_B = '0' + hex(round((B_1 + B_2) / ingrediens_mass))
         else:
-            Soup_B = hex(round((B_1 + B_2) / 2))
+            Soup_B = hex(round((B_1 + B_2) / ingrediens_mass))
 
 
 
