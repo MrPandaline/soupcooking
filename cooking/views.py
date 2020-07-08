@@ -110,13 +110,25 @@ def soupinfo(request):
 
         color1_coeff = round(ingredient1_mass / ingrediens_mass, 2)
         color2_coeff = round(ingredient2_mass / ingrediens_mass, 2)
-        R_1 = int(ingr1_color[0:2], 16) * color1_coeff
-        G_1 = int(ingr1_color[2:4], 16) * color1_coeff
-        B_1 = int(ingr1_color[4:], 16) * color1_coeff
+        if ingredient1_mass > ingredient2_mass:
 
-        R_2 = int(ingr2_color[0:2], 16) * color2_coeff
-        G_2 = int(ingr2_color[2:4], 16) * color2_coeff
-        B_2 = int(ingr2_color[4:], 16) * color2_coeff
+            R_1 = int(ingr1_color[0:2], 16) * color1_coeff
+            G_1 = int(ingr1_color[2:4], 16) * color1_coeff
+            B_1 = int(ingr1_color[4:], 16) * color1_coeff
+
+            R_2 = int(ingr2_color[0:2], 16)
+            G_2 = int(ingr2_color[2:4], 16)
+            B_2 = int(ingr2_color[4:], 16)
+
+        if ingredient2_mass > ingredient1_mass:
+
+            R_2 = int(ingr2_color[0:2], 16) * color2_coeff
+            G_2 = int(ingr2_color[2:4], 16) * color2_coeff
+            B_2 = int(ingr2_color[4:], 16) * color2_coeff
+
+            R_1 = int(ingr1_color[0:2], 16)
+            G_1 = int(ingr1_color[2:4], 16)
+            B_1 = int(ingr1_color[4:], 16)
 
 
         if len(hex(round((R_1 + R_2) / 2))) == 1:
