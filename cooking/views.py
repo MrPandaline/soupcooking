@@ -113,7 +113,7 @@ def soupinfo(request):
 
 @require_POST
 @csrf_exempt
-def hello(request):
+def api(request):
     # Verify if request came from GitHub
     forwarded_for = u'{}'.format(request.META.get('HTTP_X_FORWARDED_FOR'))
     client_ip_address = ip_address(forwarded_for)
