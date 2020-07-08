@@ -11,13 +11,26 @@
     </head>
 
     <body>
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+        <a href="{% url 'cooking:makesoup' %}">Вернуться к созданию супа</a>
+    {% else %}
 
+        {% if soupColor2%}
         <a>Цвет супа: {{soupColor1}}, {{soupColor2}}</a><br>
-        <a>Эффект супа: {{soupEffect}}</a><br>
-        <a>Длительность эффектов супа: {{effectDuration}}</a><br>
-        <a>Редкость супа: {{rarely}}</a><br>
-        <a>Масса супа: {{soupWeight}}</a>
 
-        <a href="/cooking">Вернуться в начало</a>
+        {% else %}
+        <a>Цвет супа: {{soupColor1}}</a><br>
+
+        {% endif %}
+
+        <a>Эффект супа: {{soupEffect}}</a><br>
+        <a>Длительность эффектов супа: {{effectDuration}} секунд</a><br>
+        <a>Редкость супа: {{rarely}}</a><br>
+        <a>Масса супа: {{soupWeight}}</a><br>
+        <a href="{% url 'cooking:index' %}">Вернуться в начало</a>
+
+    {% endif %}
+
     </body>
 </html>

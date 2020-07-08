@@ -17,11 +17,11 @@
                 <a href="{% url 'cooking:detail' ingredient.id %}">{{ ingredient.ingredient_name }}</a><br>
             {% endfor%}
             <br>
-            <a href="/cooking">Вернуться обратно</a>
+            <a href="{% url 'cooking:index' %}">Вернуться обратно</a>
 
         {% else %}
             <p>Ингредиентов пока нет</p>
-            <a href="/cooking">Вернуться обратно</a>
+            <a href="{% url 'cooking:index' %}">Вернуться обратно</a>
 
         {% endif %}
     </body>
