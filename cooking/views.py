@@ -56,7 +56,7 @@ def soupinfo(request):
     ingrCoeff_2 = ingredient_2.ingredient_coefficient
     count_2 = request.POST['count2']
 
-    mass = ingrWeight_1 * count_1 + ingrWeight_2 * count_2 + 5
+    mass = ingrWeight_1*count_1 + ingrWeight_2*count_2 + 5
 
     if mass > 100 or mass < 25:
        return HttpResponse("Суп не удовлетворяет требованиям")
