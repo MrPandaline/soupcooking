@@ -46,7 +46,7 @@ def soupinfo(request):
     ingr1_color = ingredient_1.ingredient_color
     ingrWeight_1 = ingredient_1.ingredient_weight
     ingrCoeff_1 = ingredient_1.ingredient_coefficient
-
+    count_1 = request.POST['count1']
 
 
     ingredient_2 = Ingredient.objects.get(pk=request.POST['ingredient2'])
@@ -54,18 +54,18 @@ def soupinfo(request):
     ingr2_color = ingredient_2.ingredient_color
     ingrWeight_2 = ingredient_2.ingredient_weight
     ingrCoeff_2 = ingredient_2.ingredient_coefficient
+    count_2 = request.POST['count2']
 
+    mass = ingrWeight_1 * count_1 + ingrWeight_2 * count_2 + 5
 
-    mass = ingrWeight_1 + ingrWeight_2 + 5
-
-    if mass > 50 or mass < 10:
+    if mass > 100 or mass < 25:
        return HttpResponse("Суп не удовлетворяет требованиям")
 
     else:
 
-        if mass <= 20:
+        if mass <= 50:
             effectDuration = 20
-        elif mass > 20 and mass <= 30:
+        elif mass > 50 and mass <= 75:
             effectDuration = 40
         else:
             effectDuration = 60
@@ -91,9 +91,6 @@ def soupinfo(request):
             effectduration = effectDuration * 2
 
         EffectChance = random.randint(1, 6)
-
-        count_1 = 1
-        count_2 = 1
 
         if EffectChance < 6 and ingrCoeff_1 > ingrCoeff_2 and ingrWeight_2 * count_2 > 1.5 * ingrWeight_1 * count_1:
             soupEffect = ingrEffect_1 + ", " + ingrEffect_2
