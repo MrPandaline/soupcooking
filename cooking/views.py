@@ -108,8 +108,8 @@ def soupinfo(request):
         ingrediens_mass = ingredient1_mass + ingredient2_mass
 
 
-        color1_coeff = round(ingredient1_mass / ingredient2_mass)
-        color2_coeff = round(ingredient2_mass / ingredient1_mass)
+        color1_coeff = round(ingredient1_mass / ingrediens_mass)
+        color2_coeff = round(ingredient2_mass / ingrediens_mass)
         R_1 = int(ingr1_color[0:2], 16) * color1_coeff
         G_1 = int(ingr1_color[2:4], 16) * color1_coeff
         B_1 = int(ingr1_color[4:], 16) * color1_coeff
