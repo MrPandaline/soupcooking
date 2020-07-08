@@ -8,13 +8,7 @@
     <head>
         <meta charset=utf-8 />
         <title>Значения супа</title>
-        <script>
-            window.onload = function() {
-                var soupcolor = document.getElementById("soupcolor").innerText;
-                document.getElementById("soupcolor1").style.backgroundColor = soupcolor;
-            };
 
-        </script>
     </head>
 
     <body>
@@ -36,6 +30,15 @@
         <a href="{% url 'cooking:index' %}">Вернуться в начало</a>
 
     {% endif %}
+        <div>
+            <script>
+                window.onload = function() {
+                    var soupcolor = document.getElementById("soupcolor").innerText;
+                    document.getElementById("soupcolor1").style.backgroundColor = soupcolor;
+                };
+
+            </script>
+        </div>
     </body>
 
 
