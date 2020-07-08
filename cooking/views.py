@@ -103,13 +103,20 @@ def soupinfo(request):
         else:
             soupEffect = ingrEffect_2
 
-        R_1 = int(ingr1_color[0:2], 16)
-        G_1 = int(ingr1_color[2:4], 16)
-        B_1 = int(ingr1_color[4:], 16)
+        ingredient1_mass = ingrWeight_1 * count_1
+        ingredient2_mass = ingrWeight_2 * count_2
+        ingrediens_mass = ingredient1_mass + ingredient2_mass
 
-        R_2 = int(ingr2_color[0:2], 16)
-        G_2 = int(ingr2_color[2:4], 16)
-        B_2 = int(ingr2_color[4:], 16)
+
+        color1_coeff = round(ingredient1_mass / ingredient2_mass)
+        color2_coeff = round(ingredient2_mass / ingredient1_mass)
+        R_1 = int(ingr1_color[0:2], 16) * color1_coeff
+        G_1 = int(ingr1_color[2:4], 16) * color1_coeff
+        B_1 = int(ingr1_color[4:], 16) * color1_coeff
+
+        R_2 = int(ingr2_color[0:2], 16) * color2_coeff
+        G_2 = int(ingr2_color[2:4], 16) * color2_coeff
+        B_2 = int(ingr2_color[4:], 16) * color2_coeff
 
 
         if len(hex(round((R_1 + R_2) / 2))) == 1:
@@ -132,8 +139,8 @@ def soupinfo(request):
 
 
         SoupColor = Soup_R + Soup_G + Soup_B
-        #SoupColor = len(hex(round((B_1 + B_2) / 2)))
         SoupColor = SoupColor.replace("0x", "")
+
         return render(request, 'cooking/soupinfo.html', {'soupColor': SoupColor,
                                                          'effectDuration': effectduration,
                                                          'rarely': soupRarely,
