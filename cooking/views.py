@@ -119,19 +119,19 @@ def soupinfo(request):
         B_2 = int(ingr2_color[4:], 16) * color2_coeff
 
 
-        if len(hex(round((R_1 + R_2) / 2))) == 1:
+        if len(hex(round((R_1 + R_2) / 2))) != 2:
             Soup_R = '0' + hex(round((R_1 + R_2) / 2))
         else:
             Soup_R = hex(round((R_1 + R_2) / 2))
 
 
-        if len(hex(round((G_1 + G_2) / 2))) == 1:
+        if len(hex(round((G_1 + G_2) / 2))) != 2:
             Soup_G = '0' + hex(round((G_1 + G_2) / 2))
         else:
             Soup_G = hex(round((G_1 + G_2) / 2))
 
 
-        if len(hex(round((B_1 + B_2) / 2))) == 1:
+        if len(hex(round((B_1 + B_2) / 2))) != 2:
             Soup_B = '0' + hex(round((B_1 + B_2) / 2))
         else:
             Soup_B = hex(round((B_1 + B_2) / 2))
