@@ -111,35 +111,29 @@ def soupinfo(request):
         G_2 = int(ingr2_color[2:4], 16)
         B_2 = int(ingr2_color[4:], 16)
 
-        if R_1 + R_2 > 255:
-            Soup_R = hex(255)
-        else:
-            if len(str(R_1 + R_2)) == 1:
-                Soup_R = '0' + hex(R_1 + R_2)
-            else:
-                Soup_R = hex(R_1 + R_2)
 
-        if G_1 + G_2 > 255:
-            Soup_G = hex(255)
+        if len(hex(round((R_1 + R_2) / 2))) == 1:
+            Soup_R = '0' + hex(round((R_1 + R_2) / 2))
         else:
-            if len(str(G_1 + G_2)) == 1:
-                Soup_G = '0' + hex(G_1 + G_2)
-            else:
-                Soup_G = hex(G_1 + G_2)
+            Soup_R = hex(round((R_1 + R_2) / 2))
 
-        if B_1 + B_2 > 255:
-            Soup_B = hex(255)
+
+        if len(hex(round((G_1 + G_2) / 2))) == 1:
+            Soup_G = '0' + hex(round((G_1 + G_2) / 2))
         else:
-            if len(str(B_1 + B_2)) == 1:
-                Soup_B ='0' + hex(B_1 + B_2)
-            else:
-                Soup_B = hex(B_1 + B_2)
+            Soup_G = hex(round((G_1 + G_2) / 2))
+
+
+        if len(hex(round((B_1 + B_2) / 2))) != 2:
+            Soup_B = '0' + hex(round((B_1 + B_2) / 2))
+        else:
+            Soup_B = hex(round((B_1 + B_2) / 2))
 
 
 
         SoupColor = Soup_R + Soup_G + Soup_B
+        #SoupColor = len(hex(round((B_1 + B_2) / 2)))
         SoupColor = SoupColor.replace("0x", "")
-        #if ingr1_color == ingr2_color:
         return render(request, 'cooking/soupinfo.html', {'soupColor': SoupColor,
                                                          'effectDuration': effectduration,
                                                          'rarely': soupRarely,
