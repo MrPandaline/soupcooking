@@ -46,7 +46,7 @@ def soupinfo(request):
     ingr1_color = ingredient_1.ingredient_color
     ingrWeight_1 = ingredient_1.ingredient_weight
     ingrCoeff_1 = ingredient_1.ingredient_coefficient
-    count_1 = request.POST['count1']
+    count_1 = int(request.POST['count1'])
 
 
     ingredient_2 = Ingredient.objects.get(pk=request.POST['ingredient2'])
@@ -54,7 +54,7 @@ def soupinfo(request):
     ingr2_color = ingredient_2.ingredient_color
     ingrWeight_2 = ingredient_2.ingredient_weight
     ingrCoeff_2 = ingredient_2.ingredient_coefficient
-    count_2 = request.POST['count2']
+    count_2 = int(request.POST['count2'])
 
     mass = ingrWeight_1*count_1 + ingrWeight_2*count_2 + 5
 
