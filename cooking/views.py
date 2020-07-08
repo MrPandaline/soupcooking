@@ -124,7 +124,7 @@ def soupinfo(request):
             Soup_G = hex(round((G_1 + G_2) / 2))
 
 
-        if len(hex(round((B_1 + B_2) / 2))) != 2:
+        if len(hex(round((B_1 + B_2) / 2))) == 1:
             Soup_B = '0' + hex(round((B_1 + B_2) / 2))
         else:
             Soup_B = hex(round((B_1 + B_2) / 2))
