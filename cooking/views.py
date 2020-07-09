@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 # Create your views here.
 from .models import Ingredient
 from django.views import generic
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError, HttpResponseRedirect
 from django.conf import settings
 import random
 from django.views.decorators.csrf import csrf_exempt
@@ -195,3 +195,6 @@ def api(request):
 
     # In case we receive an event that's not ping or push
     return HttpResponse(status=204)
+
+def main(request):
+    return HttpResponseRedirect('cooking/')
