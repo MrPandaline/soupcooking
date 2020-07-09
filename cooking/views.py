@@ -207,7 +207,7 @@ def api(request):
     return HttpResponse(status=204)
 
 def main():
-    return HttpResponseRedirect('cooking/')
+    return HttpResponseRedirect('/cooking/')
 
 def statistic(request):
     if request.COOKIES.get('usersoup'):
