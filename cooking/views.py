@@ -141,20 +141,33 @@ def soupinfo(request):
         SoupColor = Soup_R + Soup_G + Soup_B
         SoupColor = SoupColor.replace("0x", "")
 
+        if request.COOKIES.get('usersoup'):
+            statistic = "ууу"
+        else:
+            statistic = "Сохранить результат"
+
+
         return render(request, 'cooking/soupinfo.html', {'soupColor': SoupColor,
                                                          'effectDuration': effectduration,
                                                          'rarely': soupRarely,
                                                          'soupEffect': soupEffect,
-                                                         'soupWeight': mass})
-"""
-        else:
-            return render(request, 'cooking/soupinfo.html', {'soupColor1': ingr1_color,
-                                                             'soupColor2': ingr2_color,
-                                                             'effectDuration': effectduration,
-                                                             'rarely': soupRarely,
-                                                             'soupEffect': soupEffect,
-                                                             'soupWeight': mass})
-"""
+                                                         'soupWeight': mass,
+                                                         'statisticSave': statistic})
+
+def addstatistic(request):
+    if request.COOKIES.get('usersoup'):
+        response = HttpResponseRedirect('/cooking/')
+        response.delete_cookie('usersoup')
+        text = request.POST['statistic']
+        response.set_cookie('usersoup', text)
+        return response
+    else:
+        text = request.POST['statistic']
+        response = HttpResponseRedirect('/cooking/')
+        response.set_cookie('usersoup', text)
+        return response
+
+
 
 @require_POST
 @csrf_exempt
@@ -196,5 +209,11 @@ def api(request):
     # In case we receive an event that's not ping or push
     return HttpResponse(status=204)
 
-def main(request):
+def main():
     return HttpResponseRedirect('cooking/')
+
+def statistic(request):
+    if request.COOKIES.get('usersoup'):
+        return HttpResponse(request.COOKIES.get('usersoup'))
+    else:
+        return HttpResponse("Нет сохранённых супов")

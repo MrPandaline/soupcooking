@@ -15,25 +15,43 @@
             };
 
         </script>
+        <style>
+            #lol{
+                display: none;
+
+            }
+
+        </style>
     </head>
 
     <body>
     {% if error_message %}
         <p>{{ error_message }}</p>
         <a href="{% url 'cooking:makesoup' %}">Вернуться к созданию супа</a>
-    {% else %}
 
+    {% else %}
         <a id="soupcolor">{{soupColor}}</a>
 
         <a>Цвет супа: </a>
         <div id="soupcolor1"></div><br>
 
         <a>Эффект супа: {{soupEffect}}</a><br>
-        <a>Длительность эффектов супа:
-            {{effectDuration}} секунд</a><br>
+        <a>Длительность эффектов супа: {{effectDuration}} секунд</a><br>
         <a>Редкость супа: {{rarely}}</a><br>
         <a>Масса супа: {{soupWeight}}</a><br>
         <a href="{% url 'cooking:index' %}">Вернуться в начало</a>
+
+
+        {% if statisticSave == not "Сохранить результат" %}
+            <form action="{% url 'cooking:addstatistic' %}" method="post">
+            {% csrf_token %}
+                <input name="statistic" id="lol" value="{{soupEffect}} {{effectDuration}} {{rarely}} {{soupWeight}}"><br>
+                <input type="submit" name="soup" value="{{staticSave}}">
+
+            </form>
+
+
+        {% endif %}
 
     {% endif %}
     </body>

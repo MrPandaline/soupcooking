@@ -11,5 +11,6 @@ urlpatterns = [
     path('makesoup/', views.MakeSoupView.as_view(), name='makesoup'),
     path('makesoup/soupinfo/', views.soupinfo, name='soupinfo'),
     path('api/', views.api, name='api'),
-    #path('error/', views.errors, name='error'),
+    path('statistic/', views.statistic, name='statistic'),
+    path('addstatistic/', views.addstatistic, name='addstatistic'),
 ]
