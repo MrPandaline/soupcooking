@@ -206,8 +206,8 @@ def api(request):
     # In case we receive an event that's not ping or push
     return HttpResponse(status=204)
 
-def main():
-    return HttpResponseRedirect('/cooking/')
+def main(request):
+    return HttpResponseRedirect('cooking/')
 
 def statistic(request):
     if request.COOKIES.get('usersoup'):
