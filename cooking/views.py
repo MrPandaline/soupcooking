@@ -141,11 +141,8 @@ def soupinfo(request):
         SoupColor = Soup_R + Soup_G + Soup_B
         SoupColor = SoupColor.replace("0x", "")
 
-        if request.COOKIES.get('usersoup'):
-            statistic = "ууу"
-        else:
-            statistic = "Сохранить результат"
 
+        statistic = "Сохранить результат"
 
         return render(request, 'cooking/soupinfo.html', {'soupColor': SoupColor,
                                                          'effectDuration': effectduration,
@@ -213,7 +210,7 @@ def main():
     return HttpResponseRedirect('cooking/')
 
 def statistic(request):
-    if request.COOKIES.get('usersoup'):
-        return HttpResponse(request.COOKIES.get('usersoup'))
+    if request.COOKIES.get('2'):
+        return HttpResponse(request.COOKIES.get('2'))
     else:
         return HttpResponse("Нет сохранённых супов")

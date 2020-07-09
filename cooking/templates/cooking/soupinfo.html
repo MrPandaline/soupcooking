@@ -42,7 +42,7 @@
         <a href="{% url 'cooking:index' %}">Вернуться в начало</a>
 
 
-        {% if statisticSave == not "Сохранить результат" %}
+        {% if statisticSave %}
             <form action="{% url 'cooking:addstatistic' %}" method="post">
             {% csrf_token %}
                 <input name="statistic" id="lol" value="{{soupEffect}} {{effectDuration}} {{rarely}} {{soupWeight}}"><br>
