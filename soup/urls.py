@@ -15,10 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from cooking import views
 
 urlpatterns = [
     path('cooking/', include('cooking.urls')),
     path('admin/', admin.site.urls),
-    path('', views.main),
 ]
