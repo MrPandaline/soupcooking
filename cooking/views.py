@@ -58,16 +58,16 @@ def soupinfo(request):
 
     mass = ingrWeight_1*count_1 + ingrWeight_2*count_2 + 5
 
-    if mass > 100 or mass < 25:
+    if mass > 205 or mass < 25:
 
         error = 'Суп не удовлетворяет требованиям'
         return render(request, 'cooking/soupinfo.html', {'error_message': error})
 
     else:
 
-        if mass <= 50:
+        if mass <= 85:
             effectDuration = 20
-        elif mass > 50 and mass <= 75:
+        elif mass > 85 and mass <= 145:
             effectDuration = 40
         else:
             effectDuration = 60
