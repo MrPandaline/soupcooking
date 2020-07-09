@@ -210,7 +210,7 @@ def main():
     return HttpResponseRedirect('cooking/')
 
 def statistic(request):
-    if request.COOKIES.get('2'):
-        return HttpResponse(request.COOKIES.get('2'))
+    if request.COOKIES.get('usersoup'):
+        return HttpResponse(request.COOKIES.get('usersoup'))
     else:
         return HttpResponse("Нет сохранённых супов")
