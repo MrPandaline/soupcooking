@@ -14,4 +14,5 @@ urlpatterns = [
     path('statistic/', views.statistic, name='statistic'),
     path('addstatistic/', views.addstatistic, name='addstatistic'),
     path('resetcookies/', views.resetcookies, name='resetcookies'),
+    path('settings/', views.settings, name='settings')
 ]

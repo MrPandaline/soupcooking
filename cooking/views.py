@@ -17,8 +17,8 @@ from hashlib import sha1
 
 def IndexView(request):
     if request.COOKIES.get('usersoup'):
-        cookie_reset = "Сбросить сохранение супа"
-        return render(request, 'cooking/index.html', {"cookie_reset": cookie_reset})
+        cookie = "Сбросить сохранение супа"
+        return render(request, 'cooking/index.html', {"cookie": cookie})
     else:
         return render(request, 'cooking/index.html')
 
@@ -155,13 +155,11 @@ def soupinfo(request):
                                                          'statisticSave': statistic})
 
 def addstatistic(request):
-    if request.COOKIES.get('usersoup'):
+    if request.POST.get('livetime'):
+        day = request.POST['livetime']
+        time = int(day) * 24 * 60 * 60
         response = HttpResponseRedirect('/cooking/')
-        response.delete_cookie('usersoup')
-        text = request.POST['statistic']
-        text = text.replace('"', '')
-        text = text.replace('\054', ',')
-        response.set_cookie('usersoup', text)
+        response.set_cookie('livetime', str(time), time)
         return response
 
     else:
@@ -169,7 +167,10 @@ def addstatistic(request):
         text = text.replace('"', '')
         text = text.replace('\054', ',')
         response = HttpResponseRedirect('/cooking/')
-        response.set_cookie('usersoup', text)
+        if request.COOKIES.get('livetime'):
+            response.set_cookie('usersoup', text, int(request.COOKIES.get('livetime')))
+        else:
+            response.set_cookie('usersoup', text)
         return response
 
 def resetcookies(request):
@@ -244,3 +245,13 @@ def statistic(request):
                                                          'rarely': soupRarely,
                                                          'soupEffect': soupEffect,
                                                          'soupWeight': mass,})
+
+
+def settings(request):
+    if request.COOKIES.get('usersoup'):
+        soupsave = "exist"
+    else:
+        soupsave = ""
+
+    return render(request, 'cooking/settings.html', {'soupsave': soupsave,
+                                                     })

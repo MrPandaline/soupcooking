@@ -1,0 +1,35 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'cooking/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'cooking/style_settings.css' %}">
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>Рецепты супов</title>
+    </head>
+
+    <body>
+        {% if soupsave == "exist" %}
+            <a href="{% url 'cooking:resetcookies'%}">Сбросить сохрание супа</a><br><br>
+
+        {% endif %}
+
+        <span>Настройка времени жизни сохранений в днях (без изменения
+            этого параметра, ваше сохранение сбросится после
+            выключения браузера)</span><br>
+
+        <form action="{% url 'cooking:addstatistic' %}" method="post">
+        {% csrf_token %}
+
+            <input type="number" name="livetime" max="365" min="1" value="1" placeholder="Время жизни сохранения" required>
+            <input type="submit" value="Сохранить время жизни">
+
+        </form>
+
+        <a href="{% url 'cooking:index' %}">Вернуться обратно</a>
+
+    </body>
+</html>
