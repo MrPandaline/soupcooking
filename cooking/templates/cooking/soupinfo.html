@@ -27,7 +27,7 @@
     <body>
     {% if error_message %}
         <p>{{ error_message }}</p>
-        <a href="{% url 'cooking:makesoup' %}">Вернуться к созданию супа</a>
+        <a href="{% url 'cooking:makesoup' %}" class="redirect_back" >Вернуться к созданию супа</a>
 
     {% else %}
         <a id="soupcolor">{{soupColor}}</a>
@@ -39,8 +39,6 @@
         <a>Длительность эффектов супа: {{effectDuration}} секунд</a><br>
         <a>Редкость супа: {{rarely}}</a><br>
         <a>Масса супа: {{soupWeight}}</a><br>
-        <a href="{% url 'cooking:index' %}">Вернуться в начало</a>
-
 
         {% if statisticSave %}
             <form action="{% url 'cooking:addstatistic' %}" method="post">
@@ -52,6 +50,7 @@
 
 
         {% endif %}
+        <a href="{% url 'cooking:index' %}" class="redirect_back" >Вернуться в начало</a>
 
     {% endif %}
     </body>

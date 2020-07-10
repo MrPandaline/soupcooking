@@ -19,7 +19,7 @@
 
         <span>Настройка времени жизни сохранений в днях (без изменения
             этого параметра, ваше сохранение сбросится после
-            выключения браузера)</span><br>
+            выключения браузера)</span><br><br>
 
         <form action="{% url 'cooking:addstatistic' %}" method="post">
         {% csrf_token %}
@@ -29,7 +29,7 @@
 
         </form>
 
-        <a href="{% url 'cooking:index' %}">Вернуться обратно</a>
+        <a href="{% url 'cooking:index' %}" class="redirect_back" >Вернуться обратно</a>
 
     </body>
 </html>

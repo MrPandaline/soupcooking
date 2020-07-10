@@ -14,14 +14,14 @@
         {% if ingredient_list %}
 
             {% for ingredient in ingredient_list %}
-                <a href="{% url 'cooking:detail' ingredient.id %}">{{ ingredient.ingredient_name }}</a><br>
+                <a href="{% url 'cooking:detail' ingredient.id %}" class="redirect">{{ ingredient.ingredient_name }}</a><br>
             {% endfor%}
             <br>
-            <a href="{% url 'cooking:index' %}">Вернуться обратно</a>
+            <a href="{% url 'cooking:index' %}"  class="redirect_back" >Вернуться обратно</a>
 
         {% else %}
             <p>Ингредиентов пока нет</p>
-            <a href="{% url 'cooking:index' %}">Вернуться обратно</a>
+            <a href="{% url 'cooking:index' %}"  class="redirect_back" >Вернуться обратно</a>
 
         {% endif %}
     </body>

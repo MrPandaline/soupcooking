@@ -1,4 +1,57 @@
 a{
-	color: black;
+	color: lightgray;
+
+}
+
+span{
+	color: lightgray;
+
+}
+
+h4{
+
+	color: lightgray;
+}
+
+a.redirect{
+	display: inline-block;
+	color: lightgray;
+	background-color: rgba(100,100,100,.15);
+	font-weight: 500;
+	text-decoration: none;
+  	padding: .5em 2em;
+	outline: none;
+	border: 2px solid;
+	border-radius: 3px;
+	transition: 0.2s;
+	margin-bottom: 0.3em;
+	position: relative;
+    left: 40%;
+
+}
+a.redirect:hover { background: rgba(100,100,100,.2); }
+a.redirect:active { background: darkgrey; }
+
+a.redirect_back{
+	display: inline-block;
+	color: lightgray;
+	background-color: rgba(100,100,100,.15);
+	font-weight: 500;
+	text-decoration: none;
+  	padding: .3em 2em;
+	outline: none;
+	border: 2px solid;
+	border-radius: 3px;
+	transition: 0.2s;
+	margin-bottom: 0.3em;
+	position: relative;
+    left: 40%;
+
+}
+a.redirect_back:hover { background: rgba(100,100,100,.2); }
+a.redirect_back:active { background: darkgrey; }
+
+body{
+	background-color: #454545;
 
 }
