@@ -156,10 +156,14 @@ def addstatistic(request):
         response = HttpResponseRedirect('/cooking/')
         response.delete_cookie('usersoup')
         text = request.POST['statistic']
+        text = text.replace('"', '')
+        text = text.replace('\054', ',')
         response.set_cookie('usersoup', text)
         return response
     else:
         text = request.POST['statistic']
+        text = text.replace('"', '')
+        text = text.replace('\054', ',')
         response = HttpResponseRedirect('/cooking/')
         response.set_cookie('usersoup', text)
         return response
@@ -212,8 +216,20 @@ def main(request):
 def statistic(request):
     if not request.COOKIES.get('usersoup'):
         error_message = "Нет сохранённого супа"
-        return render(request, 'cooking/statistic.html', {error_message})
+        return render(request, 'cooking/statistic.html', {'error_message': error_message})
     else:
 
-        not_rem_files = request.COOKIES.get('usersoup')
-        return render(request, 'cooking/statistic.html', {})
+        text = request.COOKIES.get('usersoup')
+        text = text.replace('\054', ',')
+        text = text.replace('"', '')
+        res = [element.strip("'()") for element in text.split(", ")]
+        soupEffect = res[0]
+        effectduration = res[1]
+        soupRarely = res[2]
+        mass = res[3]
+        SoupColor = res[4]
+        return render(request, 'cooking/statistic.html', {'soupColor': SoupColor,
+                                                         'effectDuration': effectduration,
+                                                         'rarely': soupRarely,
+                                                         'soupEffect': soupEffect,
+                                                         'soupWeight': mass,})

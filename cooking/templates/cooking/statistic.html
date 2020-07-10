@@ -1,7 +1,7 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'cooking/style.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'cooking/style_statistic.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'cooking/stylestatistic.css' %}">
 
 <!DOCTYPE html>
 <html>
@@ -9,6 +9,10 @@
         <meta charset=utf-8 />
         <title>Значения супа</title>
         <script>
+            window.onload = function() {
+                var soupcolor = document.getElementById("soupcolor").innerText;
+                document.getElementById("soupcolor1").style.backgroundColor = soupcolor;
+            };
 
         </script>
 
@@ -30,7 +34,6 @@
         <a>Редкость супа: {{rarely}}</a><br>
         <a>Масса супа: {{soupWeight}}</a><br>
         <a href="{% url 'cooking:index' %}">Вернуться в начало</a>
-
 
 
     {% endif %}
