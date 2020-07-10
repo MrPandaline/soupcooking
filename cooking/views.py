@@ -210,7 +210,10 @@ def main():
     return HttpResponseRedirect('cooking/')
 
 def statistic(request):
-    if request.COOKIES.get('usersoup'):
-        return HttpResponse(request.COOKIES.get('usersoup'))
+    if not request.COOKIES.get('usersoup'):
+        error_message = "Нет сохранённого супа"
+        return render(request, 'cooking/statistic.html', {error_message})
     else:
-        return HttpResponse("Нет сохранённых супов")
+
+        not_rem_files = request.COOKIES.get('usersoup')
+        return render(request, 'cooking/statistic.html', {})
