@@ -209,11 +209,4 @@ def api(request):
 def main(request):
     return HttpResponseRedirect('cooking/')
 
-def statistic(request):
-    if not request.COOKIES.get('usersoup'):
-        error_message = "Нет сохранённого супа"
-        return render(request, 'cooking/statistic.html', {error_message})
-    else:
 
-        not_rem_files = request.COOKIES.get('usersoup')
-        return render(request, 'cooking/statistic.html', {})
