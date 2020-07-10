@@ -11,8 +11,14 @@
     </head>
 
     <body>
-        <a href="{% url 'cooking:ingredient'%}">Список ингредиентов</a>
-        <a href="{% url 'cooking:makesoup'%}">Приготовить супъ</a>
-        <a href="{% url 'cooking:statistic'%}">Просмотреть сохранённый суп</a>
+        <a href="{% url 'cooking:ingredient'%}">Список ингредиентов</a><br>
+        <a href="{% url 'cooking:makesoup'%}">Приготовить супъ</a><br>
+        <a href="{% url 'cooking:statistic'%}">Просмотреть сохранённый суп</a><br>
+
+        {% if cookie_reset %}
+            <a href="{% url 'cooking:resetcookies'%}">{{cookie_reset}}</a><br>
+
+        {% endif %}
+
     </body>
 </html>

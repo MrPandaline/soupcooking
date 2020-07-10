@@ -14,10 +14,13 @@ import requests
 import hmac
 from hashlib import sha1
 
-# Просто отрисовочка шаблона
-class IndexView(generic.TemplateView):
-    model = Ingredient
-    template_name = 'cooking/index.html'
+
+def IndexView(request):
+    if request.COOKIES.get('usersoup'):
+        cookie_reset = "Сбросить сохранение супа"
+        return render(request, 'cooking/index.html', {"cookie_reset": cookie_reset})
+    else:
+        return render(request, 'cooking/index.html')
 
 class IngredientsView(generic.ListView):
     template_name = 'cooking/ingredients.html'
@@ -160,6 +163,7 @@ def addstatistic(request):
         text = text.replace('\054', ',')
         response.set_cookie('usersoup', text)
         return response
+
     else:
         text = request.POST['statistic']
         text = text.replace('"', '')
@@ -168,7 +172,14 @@ def addstatistic(request):
         response.set_cookie('usersoup', text)
         return response
 
+def resetcookies(request):
+    if request.COOKIES.get('usersoup'):
+        response = HttpResponseRedirect('/cooking/')
+        response.delete_cookie('usersoup')
+        return response
 
+    else:
+        return HttpResponseRedirect('/cooking/')
 
 @require_POST
 @csrf_exempt
