@@ -18,6 +18,7 @@ a.redirect{
 	color: lightgray;
 	background-color: rgba(100,100,100,.15);
 	font-weight: 500;
+	font-size: 1cm;
 	text-decoration: none;
   	padding: .5em 2em;
 	outline: none;
@@ -25,8 +26,7 @@ a.redirect{
 	border-radius: 3px;
 	transition: 0.2s;
 	margin-bottom: 0.3em;
-	position: relative;
-    left: 40%;
+
 
 }
 a.redirect:hover { background: rgba(100,100,100,.2); }
@@ -52,6 +52,31 @@ a.redirect_back:hover { background: rgba(100,100,100,.2); }
 a.redirect_back:active { background: darkgrey; }
 
 body{
-	background-color: #454545;
+	background: url("bg2.jpg") no-repeat;
+	overflow-x: hidden;
+  	overflow-y: hidden;
+
+}
+
+div.main-inner{
+
+	width: 98%;
+	height: 99%;
+	display: block;
+	padding: .5em;
+	position: absolute;
+    top: 40%;
+
+}
+
+div.main-outer{
+	margin: 0 auto;
+	background-color: rgba(0, 0, 0, 0.2);
+	width: 98%;
+	height: 99%;
+	display: block;
+
+
+
 
 }

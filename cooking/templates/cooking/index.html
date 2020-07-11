@@ -11,13 +11,17 @@
     </head>
 
     <body>
-        <a href="{% url 'cooking:ingredient' %}" class="redirect" >Список ингредиентов</a><br>
-        <a href="{% url 'cooking:makesoup' %}" class="redirect" >Приготовить супъ</a><br>
-        <a href="{% url 'cooking:settings' %}" class="redirect" >Настройки</a><br>
+        <div class="main-outer">
+        <div class="main-inner">
+            <a href="{% url 'cooking:ingredient' %}" class="redirect" >Список ингредиентов</a><br>
+            <a href="{% url 'cooking:makesoup' %}" class="redirect" >Приготовить супъ</a><br>
+            <a href="{% url 'cooking:settings' %}" class="redirect" >Настройки</a><br>
 
-        {% if cookie %}
-        <a href="{% url 'cooking:statistic' %}" class="redirect" >Просмотреть сохранённый суп</a><br>
-        {% endif %}
+            {% if cookie %}
+            <a href="{% url 'cooking:statistic' %}" class="redirect" >Просмотреть сохранённый суп</a><br>
+            {% endif %}
+        </div>
+        </div>
 
     </body>
 </html>

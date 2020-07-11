@@ -1,0 +1,15 @@
+div.ingredient-list{
+    background-color: rgba(0, 0, 0, .2);
+    position: relative;
+    left: 0%;
+    padding: 1em;
+
+
+}
+
+a.ingredient-name {
+    font-size: 20pt;
+    padding: 5px;
+    line-height: 2em;
+}
+

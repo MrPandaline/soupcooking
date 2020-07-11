@@ -1,7 +1,7 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'cooking/style.css' %}">
-
+<link rel="stylesheet" type="text/css" href="{% static 'cooking/style_ingredients.css' %}">
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,16 +12,21 @@
 
     <body>
         {% if ingredient_list %}
-
-            {% for ingredient in ingredient_list %}
-                <a href="{% url 'cooking:detail' ingredient.id %}" class="redirect">{{ ingredient.ingredient_name }}</a><br>
-            {% endfor%}
+            <div>
+                <div class="ingredient-list">
+                {% for ingredient in ingredient_list %}
+                    <a href="{% url 'cooking:detail' ingredient.id %}" class="ingredient-name">{{ ingredient.ingredient_name }}</a><br>
+                {% endfor%}
+                 </div>
+             </div>
             <br>
+
             <a href="{% url 'cooking:index' %}"  class="redirect_back" >Вернуться обратно</a>
 
         {% else %}
             <p>Ингредиентов пока нет</p>
             <a href="{% url 'cooking:index' %}"  class="redirect_back" >Вернуться обратно</a>
+
 
         {% endif %}
     </body>
