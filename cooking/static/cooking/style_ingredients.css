@@ -36,9 +36,9 @@ div#ingredients-info{
     display: none;
     margin: 5px;
     padding: .5em;
-    position: relative;
+    position: absolute;
     left: 50%;
-    bottom: 325px;
+    top: 3%;
     width: 47%;
     background-color: rgba(0, 0, 0, .8);
 
