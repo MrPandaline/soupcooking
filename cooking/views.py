@@ -30,9 +30,6 @@ class IngredientsView(generic.ListView):
     def get_queryset():
         return Ingredient.objects.all()
 
-class DetailView(generic.DetailView):
-    model = Ingredient
-    template_name = 'cooking/detail.html'
 
 class MakeSoupView(generic.ListView):
     template_name = 'cooking/makesoup.html'

@@ -8,16 +8,74 @@
         <meta charset=utf-8 />
         <title>Ингредиенты</title>
 
+
+        <script>
+
+            function ContentUpdate(Element) {
+                let El = document.getElementById('ing'+Element);
+                let IngCount = document.getElementsByClassName('ingredient-info').length;
+                const OutEl = document.getElementById('ingredients-info');
+
+                if(El.style.display == 'none') {
+
+                var soupcolor = document.getElementById('ingredientcolor'+Element).innerText;
+                document.getElementById('ingredientcolorview'+Element).style.backgroundColor = soupcolor;
+
+                    for(let i = 1; i<=IngCount; i++) {
+                        let El_s = document.getElementById('ing'+i);
+
+                        if(El_s == El) {
+                            El_s.style.display = 'block';
+                            OutEl.style.display = 'block';
+
+                        }
+
+                        else {
+                            if (El_s.style.display == 'block') {
+                                El_s.style.display = 'none';
+                                OutEl.style.display = 'none';
+
+                            }
+                        }
+
+
+                    }
+                }
+                else {
+                    El.style.display = 'none';
+                    OutEl.style.display = 'none'
+                }
+            }
+
+
+        </script>
+
     </head>
 
     <body>
         {% if ingredient_list %}
-            <div>
+            <div class="ingredient-block">
+
                 <div class="ingredient-list">
-                {% for ingredient in ingredient_list %}
-                    <a href="{% url 'cooking:detail' ingredient.id %}" class="ingredient-name">{{ ingredient.ingredient_name }}</a><br>
-                {% endfor%}
-                 </div>
+                    {% for ingredient in ingredient_list %}
+                        <a href="#" onclick="return ContentUpdate('{{ingredient.id}}')" class="ingredient-name" >{{ ingredient.ingredient_name }}</a><br>
+                    {% endfor%}
+                </div>
+
+                <div id="ingredients-info">
+                    {% for ingredient in ingredient_list %}
+                    <div id="ing{{ ingredient.id }}" class="ingredient-info">
+                        <a id="ingredientcolor{{ingredient.id}}" class="soupcolor">{{ingredient.ingredient_color}}</a>
+                        <a>Описание: {{ingredient.ingredient_description}}</a><br>
+                        <a>Эффект: {{ingredient.ingredient_effect}}</a><br>
+                        <a>Цвет:</a><br>
+                        <div id="ingredientcolorview{{ingredient.id}}" class="soupcolor1"></div><br>
+                        <a>Масса: {{ingredient.ingredient_weight}}</a><br>
+                    </div>
+
+                    {% endfor%}
+                </div>
+
              </div>
             <br>
 
