@@ -53,8 +53,7 @@ a.redirect_back:active { background: darkgrey; }
 
 body{
 	background: url("bg2.jpg") no-repeat;
-	overflow-x: hidden;
-  	overflow-y: hidden;
+	background-size: 200%;
 
 }
 
