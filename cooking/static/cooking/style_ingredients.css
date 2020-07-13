@@ -1,8 +1,9 @@
 div.ingredient-block{
     background-color: rgba(0, 0, 0, .2);
-    position: relative;
-    left: 0%;
     padding: 1em;
+    display: flex;
+    flex-direction: row;
+
 
 
 }
@@ -16,18 +17,15 @@ a.ingredient-name {
 }
 
 div.ingredient-list{
-    position: relative;
-    width: 50%;
-    background-color: rgba(0, 0, 0, .8);
 
+    background-color: rgba(0, 0, 0, .4);
+    flex-grow: 2;
 
 }
 
 
 div.ingredient-info{
     display: none;
-    position: relative;
-
 
 
 }
@@ -36,11 +34,9 @@ div#ingredients-info{
     display: none;
     margin: 5px;
     padding: .5em;
-    position: absolute;
-    left: 50%;
-    top: 3%;
-    width: 47%;
-    background-color: rgba(0, 0, 0, .8);
+    background-color: rgba(0, 0, 0, .4);
+    flex-grow: 3;
+
 
 }
 
@@ -55,4 +51,5 @@ div#ingredients-info{
     display: none;
 
 }
+
 

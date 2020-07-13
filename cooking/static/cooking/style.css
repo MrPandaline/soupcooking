@@ -3,22 +3,13 @@ a{
 
 }
 
-span{
-	color: lightgray;
-
-}
-
-h4{
-
-	color: lightgray;
-}
 
 a.redirect{
 	display: inline-block;
 	color: lightgray;
 	background-color: rgba(100,100,100,.15);
 	font-weight: 500;
-	font-size: 1cm;
+	font-size: 2em;
 	text-decoration: none;
   	padding: .5em 2em;
 	outline: none;
@@ -26,7 +17,6 @@ a.redirect{
 	border-radius: 3px;
 	transition: 0.2s;
 	margin-bottom: 0.3em;
-
 
 }
 a.redirect:hover { background: rgba(100,100,100,.2); }
@@ -44,8 +34,6 @@ a.redirect_back{
 	border-radius: 3px;
 	transition: 0.2s;
 	margin-bottom: 0.3em;
-	position: relative;
-    left: 40%;
 
 }
 a.redirect_back:hover { background: rgba(100,100,100,.2); }
@@ -53,29 +41,7 @@ a.redirect_back:active { background: darkgrey; }
 
 body{
 	background: url("bg2.jpg") no-repeat;
-	background-size: 200%;
-
+	color: lightgray;
 }
 
-div.main-inner{
 
-	width: 98%;
-	height: 99%;
-	display: block;
-	padding: .5em;
-	position: absolute;
-    top: 40%;
-
-}
-
-div.main-outer{
-	margin: 0 auto;
-	background-color: rgba(0, 0, 0, 0.2);
-	width: 98%;
-	height: 99%;
-	display: block;
-
-
-
-
-}
