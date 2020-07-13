@@ -44,4 +44,7 @@ body{
 	color: lightgray;
 }
 
+@media handheld {
+    body{ background: url("bg2T.jpg");}
 
+}

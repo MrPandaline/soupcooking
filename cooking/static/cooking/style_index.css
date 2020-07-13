@@ -17,11 +17,3 @@ div.main-outer{
 
 }
 
-@media handheld {
-    a.redirect{
-        width: 90%;
-
-
-    }
-
-}
