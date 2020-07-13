@@ -1,0 +1,80 @@
+div.main{
+    text-align: center;
+    margin-top: 10%;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+
+}
+
+form{
+    display: grid;
+    grid-template-areas:"label-1 label-2"
+                        "post-1 post-2"
+                        "count-1 count-2"
+                        "post-3 post-4"
+                        "post-5 post-5";
+    grid-template-rows:  25% 25% 25% 25%;
+    grid-template-columns: 50% 50%;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+
+
+
+span#ingredlabel1{
+    grid-area: label-1;
+    margin: auto;
+
+}
+span#ingredlabel2{
+    grid-area: label-2;
+    margin: auto;
+
+}
+
+
+select#ingred1{
+    grid-area: post-1;
+    margin: auto;
+
+}
+
+select#ingred2{
+    grid-area: post-2;
+    margin: auto;
+
+}
+
+span#countlabel1{
+    grid-area: count-1;
+    margin: auto;
+    padding-top: 5px;
+
+
+}
+
+span#countlabel2{
+    grid-area: count-2;
+    margin: auto;
+    padding-top: 5px;
+
+}
+
+input#count1{
+    grid-area: post-3;
+    margin: auto;
+
+}
+
+input#count2{
+    grid-area: post-4;
+    margin: auto;
+
+}
+
+input#ingredient{
+    grid-area: post-5;
+    margin: auto;
+
+}

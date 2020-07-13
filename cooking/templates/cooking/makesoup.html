@@ -1,6 +1,7 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'cooking/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'cooking/style_makesoup.css' %}">
 
 <!DOCTYPE html>
 <html>
@@ -11,28 +12,32 @@
     </head>
 
     <body>
+        <div class="main">
+            <form action="{% url 'cooking:soupinfo' %}" method="post">
+                <span id="ingredlabel1">Первый ингредиент</span>
+                <span id="ingredlabel2">Второй ингредиент</span>
+            {% csrf_token %}
+                <select name="ingredient1" size="3" id="ingred1">
+                {% for ingredient in ingredient_list %}
+                    <option value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
 
-        <form action="{% url 'cooking:soupinfo' %}" method="post">
-        {% csrf_token %}
-            <select name="ingredient1" size="3" required>
-            {% for ingredient in ingredient_list %}
-                <option value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
+                {% endfor %}
+                </select>
 
-            {% endfor %}
-            </select>
+                <select name="ingredient2" size="3" id="ingred2" required>
+                {% for ingredient in ingredient_list %}
+                    <option value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
 
-            <select name="ingredient2" size="3" required>
-            {% for ingredient in ingredient_list %}
-                <option value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
-
-            {% endfor %}
-            </select><br>
-            <input name="count1" type="number" min="1" value="1" placeholder="Кол-во I ингредиента" required>
-            <input name="count2" type="number" min="1" value="1" placeholder="Кол-во II ингредиента" required>
-            <input type="submit" name="soup" id="ingredient" value="Рассчитать характеристики">
-        </form><br>
-        <a href="/cooking" class="redirect_back" >Вернуться обратно</a>
-
+                {% endfor %}
+                </select><br>
+                <span id="countlabel1">Кол-во I ингредиента</span>
+                <span id="countlabel2">Кол-во II ингредиента</span>
+                <input name="count1" type="number" min="1" value="1" placeholder="Кол-во I ингредиента" id="count1" required>
+                <input name="count2" type="number" min="1" value="1" placeholder="Кол-во II ингредиента" id="count2" required>
+                <input type="submit" name="soup" id="ingredient" value="Рассчитать характеристики">
+            </form><br>
+            <a href="/cooking" class="redirect_back" >Вернуться обратно</a>
+        </div>
     </body>
 </html>
 
