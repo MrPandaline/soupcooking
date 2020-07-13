@@ -42,9 +42,6 @@ a.redirect_back:active { background: darkgrey; }
 body{
 	background: url("bg2.jpg") no-repeat;
 	color: lightgray;
+	background-size:cover!important;
 }
 
-@media (max-width: 720px) {
-    body{ background: url("bg2T.jpg");}
-
-}
