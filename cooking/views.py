@@ -397,7 +397,7 @@ def auth_redir(request):
                 time = int(request.COOKIES.get('livetime'))
                 response.set_cookie('wasauthorised', secret, time)
             else:
-                response.set_cookie('wasauthorised', secret, time)
+                response.set_cookie('wasauthorised', secret)
             return response
     except:
         return HttpResponseRedirect('/cooking/register/')
@@ -418,7 +418,7 @@ def login_redir(request):
                     time = int(request.COOKIES.get('livetime'))
                     response.set_cookie('wasauthorised', User.user_secret, time)
                 else:
-                    response.set_cookie('wasauthorised', User.user_secret, time)
+                    response.set_cookie('wasauthorised', User.user_secret)
                 return response
 
             else:
