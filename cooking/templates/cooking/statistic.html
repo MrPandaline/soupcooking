@@ -19,22 +19,43 @@
     </head>
 
     <body>
+        <header>
+
+            <div id="logo">
+                <a href="{% url 'cooking:index' %}">SoupCookers</a>
+            </div>
+
+
+            <div id="account-name" class="account-info">
+                {% if username %}
+                <a href="{% url 'cooking:login' %}">{{username}}</a>
+                {% else %}
+                <a href="{% url 'cooking:login' %}">Войти в аккаунт</a>
+                {% endif %}
+            </div>
+            <div id="account-img" class="account-info">
+                <div id="img"></div>
+            </div>
+
+        </header>
+
     {% if error_message %}
         <p>{{ error_message }}</p>
         <a href="{% url 'cooking:index' %}">Вернуться в начало</a>
 
     {% else %}
-        <a id="soupcolor">{{soupColor}}</a>
+        <div class="main">
+            <a id="soupcolor">{{soupColor}}</a>
 
-        <a>Цвет супа: </a>
-        <div id="soupcolor1"></div><br>
+            <a>Цвет супа: </a>
+            <div id="soupcolor1"></div><br>
 
-        <a>Эффект супа: {{soupEffect}}</a><br>
-        <a>Длительность эффектов супа: {{effectDuration}} секунд</a><br>
-        <a>Редкость супа: {{rarely}}</a><br>
-        <a>Масса супа: {{soupWeight}}</a><br>
-        <a href="{% url 'cooking:index' %}" class="redirect_back" >Вернуться в начало</a>
-
+            <a>Эффект супа: {{soupEffect}}</a><br>
+            <a>Длительность эффектов супа: {{effectDuration}} секунд</a><br>
+            <a>Редкость супа: {{rarely}}</a><br>
+            <a>Масса супа: {{soupWeight}}</a><br>
+            <a href="{% url 'cooking:index' %}" class="redirect_back" >Вернуться в начало</a>
+        </div>
 
     {% endif %}
     </body>

@@ -12,24 +12,57 @@
     </head>
 
     <body>
-        {% if soupsave == "exist" %}
-            <a href="{% url 'cooking:resetcookies'%}">Сбросить сохрание супа</a><br><br>
+        <header>
 
-        {% endif %}
+            <div id="logo">
+                <a href="{% url 'cooking:index' %}">SoupCookers</a>
+            </div>
 
-        <span>Настройка времени жизни сохранений в днях (без изменения
-            этого параметра, ваше сохранение сбросится после
-            выключения браузера)</span><br><br>
 
-        <form action="{% url 'cooking:addstatistic' %}" method="post">
-        {% csrf_token %}
+            <div id="account-name" class="account-info">
+                {% if username %}
+                <a href="{% url 'cooking:login' %}">{{username}}</a>
+                {% else %}
+                <a href="{% url 'cooking:login' %}">Войти в аккаунт</a>
+                {% endif %}
+            </div>
+            <div id="account-img" class="account-info">
+                <div id="img"></div>
+            </div>
 
-            <input type="number" name="livetime" max="365" min="1" value="1" placeholder="Время жизни сохранения" required>
-            <input type="submit" value="Сохранить время жизни">
+        </header>
 
-        </form>
+        <div class="main">
+            {% if soupsave == "exist" %}
+                <a href="{% url 'cooking:resetcookies' %}">Сбросить сохрание супа</a><br><br>
 
-        <a href="{% url 'cooking:index' %}" class="redirect_back" >Вернуться обратно</a>
+            {% endif %}
+            <div id="live-time" class="content">
+                <span>Настройка времени жизни сохранений в днях (без изменения
+                    этого параметра, ваше сохранение сбросится после
+                    выключения браузера)</span><br><br>
 
+                <form action="{% url 'cooking:addstatistic' %}" method="post">
+                {% csrf_token %}
+
+                    <input type="number" name="livetime" max="365" min="1" value="1" placeholder="Время жизни сохранения" required>
+                    <input type="submit" value="Сохранить время жизни">
+
+                </form>
+            </div>
+            {% if wasauthorised == "exist" %}
+                <div id="auth-exit" class="content">
+                    <a href="{% url 'cooking:exit' %}">Выйти из аккаунта</a>
+                </div>
+
+                {% if soupsaveacc == "exist" %}
+                    <div id="auth-delete-save" class="content">
+                        <a href="{% url 'cooking:deletesave' %}">Удалить сохранение</a>
+                    </div>
+
+                {% endif %}
+            {% endif %}
+            <a href="{% url 'cooking:index' %}" class="redirect_back" >Вернуться обратно</a>
+        </div>
     </body>
 </html>

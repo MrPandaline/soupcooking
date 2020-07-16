@@ -1,7 +1,8 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 
 # Create your views here.
 from .models import Ingredient
+from .models import UserInfo
 from django.views import generic
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError, HttpResponseRedirect
 from django.conf import settings
@@ -13,31 +14,52 @@ from ipaddress import ip_address, ip_network
 import requests
 import hmac
 from hashlib import sha1
+from django.contrib.auth.hashers import PBKDF2PasswordHasher
+from django.utils.crypto import get_random_string
+from django.contrib.auth.password_validation import MinimumLengthValidator, CommonPasswordValidator
 
 
 def IndexView(request):
+    if request.COOKIES.get('wasauthorised'):
+        secret = request.COOKIES.get('wasauthorised')
+        User = UserInfo.objects.get(user_secret=secret)
+        UserName = User.user_name
+        if not User.user_soup_list == " ":
+            cookie = "."
+            return render(request, 'cooking/index.html', {"cookie": cookie, 'username': UserName})
+        else:
+            return render(request, 'cooking/index.html', {'username': UserName})
+
     if request.COOKIES.get('usersoup'):
-        cookie = "Сбросить сохранение супа"
+        cookie = "."
         return render(request, 'cooking/index.html', {"cookie": cookie})
     else:
         return render(request, 'cooking/index.html')
 
-class IngredientsView(generic.ListView):
+def IngredientsView(request):
     template_name = 'cooking/ingredients.html'
-    context_object_name = 'ingredient_list'
 
-    @staticmethod
-    def get_queryset():
-        return Ingredient.objects.all()
+    ingredient_list = Ingredient.objects.all()
+    if request.COOKIES.get('wasauthorised'):
+        secret = request.COOKIES.get('wasauthorised')
+        User = UserInfo.objects.get(user_secret=secret)
+        UserName = User.user_name
+        return render(request, template_name, {'ingredient_list': ingredient_list, 'username':UserName})
+
+    return render(request, template_name, {'ingredient_list': ingredient_list})
 
 
-class MakeSoupView(generic.ListView):
+def MakeSoupView(request):
     template_name = 'cooking/makesoup.html'
-    context_object_name = 'ingredient_list'
 
-    @staticmethod
-    def get_queryset():
-        return Ingredient.objects.all()
+    ingredient_list = Ingredient.objects.all()
+    if request.COOKIES.get('wasauthorised'):
+        secret = request.COOKIES.get('wasauthorised')
+        User = UserInfo.objects.get(user_secret=secret)
+        UserName = User.user_name
+        return render(request, template_name, {'ingredient_list': ingredient_list, 'username':UserName})
+
+    return render(request, template_name, {'ingredient_list': ingredient_list})
 
 
 def soupinfo(request):
@@ -144,6 +166,18 @@ def soupinfo(request):
 
         statistic = "Сохранить результат"
 
+        if request.COOKIES.get('wasauthorised'):
+            secret = request.COOKIES.get('wasauthorised')
+            User = UserInfo.objects.get(user_secret=secret)
+            UserName = User.user_name
+            return render(request, 'cooking/soupinfo.html', {'soupColor': SoupColor,
+                                                             'effectDuration': effectduration,
+                                                             'rarely': soupRarely,
+                                                             'soupEffect': soupEffect,
+                                                             'soupWeight': mass,
+                                                             'statisticSave': statistic,
+                                                             'username': UserName})
+
         return render(request, 'cooking/soupinfo.html', {'soupColor': SoupColor,
                                                          'effectDuration': effectduration,
                                                          'rarely': soupRarely,
@@ -160,15 +194,24 @@ def addstatistic(request):
         return response
 
     else:
-        text = request.POST['statistic']
-        text = text.replace('"', '')
-        text = text.replace('\054', ',')
-        response = HttpResponseRedirect('/cooking/')
-        if request.COOKIES.get('livetime'):
-            response.set_cookie('usersoup', text, int(request.COOKIES.get('livetime')))
+        if request.COOKIES.get('wasauthorised'):
+            User = UserInfo.objects.get(user_secret=request.COOKIES.get('wasauthorised'))
+            text = request.POST['statistic']
+            User.user_soup_list = text
+            User.save()
+            response = HttpResponseRedirect('/cooking/')
+            return response
+
         else:
-            response.set_cookie('usersoup', text)
-        return response
+            text = request.POST['statistic']
+            text = text.replace('"', '')
+            text = text.replace('\054', ',')
+            response = HttpResponseRedirect('/cooking/')
+            if request.COOKIES.get('livetime'):
+                response.set_cookie('usersoup', text, int(request.COOKIES.get('livetime')))
+            else:
+                response.set_cookie('usersoup', text)
+            return response
 
 def resetcookies(request):
     if request.COOKIES.get('usersoup'):
@@ -223,25 +266,54 @@ def main(request):
     return HttpResponseRedirect('cooking/')
 
 def statistic(request):
-    if not request.COOKIES.get('usersoup'):
-        error_message = "Нет сохранённого супа"
-        return render(request, 'cooking/statistic.html', {'error_message': error_message})
-    else:
+    if request.COOKIES.get('wasauthorised'):
+        secret = request.COOKIES.get('wasauthorised')
+        User = UserInfo.objects.get(user_secret=secret)
+        text = User.user_soup_list
+        UserName = User.user_name
+        if text == " ":
+            error_message = "Нет сохранённого супа"
+            return render(request, 'cooking/statistic.html', {'error_message': error_message, 'username':UserName})
+        else:
+            text = text.replace('\054', ',')
+            text = text.replace('"', '')
+            res = [element.strip("'()") for element in text.split(", ")]
+            soupEffect = res[0]
+            effectduration = res[1]
+            soupRarely = res[2]
+            mass = res[3]
+            SoupColor = res[4]
 
-        text = request.COOKIES.get('usersoup')
-        text = text.replace('\054', ',')
-        text = text.replace('"', '')
-        res = [element.strip("'()") for element in text.split(", ")]
-        soupEffect = res[0]
-        effectduration = res[1]
-        soupRarely = res[2]
-        mass = res[3]
-        SoupColor = res[4]
-        return render(request, 'cooking/statistic.html', {'soupColor': SoupColor,
-                                                         'effectDuration': effectduration,
-                                                         'rarely': soupRarely,
-                                                         'soupEffect': soupEffect,
-                                                         'soupWeight': mass,})
+
+
+
+            return render(request, 'cooking/statistic.html', {'soupColor': SoupColor,
+                                                              'effectDuration': effectduration,
+                                                              'rarely': soupRarely,
+                                                              'soupEffect': soupEffect,
+                                                              'soupWeight': mass,
+                                                              'username': UserName})
+
+    else:
+        if not request.COOKIES.get('usersoup'):
+            error_message = "Нет сохранённого супа"
+            return render(request, 'cooking/statistic.html', {'error_message': error_message})
+        else:
+
+            text = request.COOKIES.get('usersoup')
+            text = text.replace('\054', ',')
+            text = text.replace('"', '')
+            res = [element.strip("'()") for element in text.split(", ")]
+            soupEffect = res[0]
+            effectduration = res[1]
+            soupRarely = res[2]
+            mass = res[3]
+            SoupColor = res[4]
+            return render(request, 'cooking/statistic.html', {'soupColor': SoupColor,
+                                                              'effectDuration': effectduration,
+                                                              'rarely': soupRarely,
+                                                              'soupEffect': soupEffect,
+                                                              'soupWeight': mass,})
 
 
 def settings(request):
@@ -250,5 +322,127 @@ def settings(request):
     else:
         soupsave = ""
 
+    soupsaveacc = ""
+    if request.COOKIES.get('wasauthorised'):
+        secret = request.COOKIES.get('wasauthorised')
+        wasauthorised = "exist"
+        user = UserInfo.objects.get(user_secret=secret)
+        userName= user.user_name
+        if not user.user_soup_list == " ":
+            soupsaveacc = "exist"
+        else:
+            soupsaveacc = ""
+
+        return render(request, 'cooking/settings.html', {'soupsave': soupsave,
+                                                         'wasauthorised': wasauthorised,
+                                                         'soupsaveacc': soupsaveacc,
+                                                         'username': userName})
+
+    else:
+        wasauthorised = ""
+
     return render(request, 'cooking/settings.html', {'soupsave': soupsave,
-                                                     })
+                                                     'wasauthorised': wasauthorised,
+                                                     'soupsaveacc': soupsaveacc})
+
+def auth(request):
+    if request.COOKIES.get('wasauthorised'):
+        return HttpResponseRedirect('/cooking/')
+    return render(request, 'cooking/auth.html')
+
+def login(request):
+    if request.COOKIES.get('wasauthorised'):
+        return HttpResponseRedirect('/cooking/')
+    else:
+        return render(request, 'cooking/login.html')
+
+
+def auth_redir(request):
+    try:
+        User_name = request.POST['name']
+        User_email = request.POST['email']
+        User_password = request.POST['password']
+
+        minlengthpass = MinimumLengthValidator()
+        commonpass = CommonPasswordValidator()
+
+        try:
+            minlengthpass.validate(User_password)
+        except:
+            minlength_error = "Пароль слишком короткий, он должен содержать минимум 8 символов"
+            return render(request, 'cooking/auth.html', {'minlength_error': minlength_error})
+
+
+        try:
+            commonpass.validate(User_password)
+        except:
+            common_error = "Пароль слишком простой"
+            return render(request, 'cooking/auth.html', {'common_error': common_error})
+
+
+
+        hasher = PBKDF2PasswordHasher()
+        salt = get_random_string(12, "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890")
+        User_password = hasher.encode(password=User_password, salt=salt, iterations=180000)
+        if UserInfo.objects.filter(user_name=User_name).exists():
+            user_error = "Пользователь с таким именем уже существует"
+            return render(request, 'cooking/auth.html', {'user_error': user_error})
+        else:
+            secret = get_random_string(50, 'qwertyuiopasdfghjlkzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!@#$%^&*()_-')
+            Userinfo = UserInfo(user_name=User_name, user_img=" ", user_email=User_email, user_password=User_password,
+                                    user_soup_list=" ", user_secret=secret)
+            Userinfo.save()
+            response = HttpResponseRedirect('/cooking/')
+            if request.COOKIES.get('livetime'):
+                time = int(request.COOKIES.get('livetime'))
+                response.set_cookie('wasauthorised', secret, time)
+            else:
+                response.set_cookie('wasauthorised', secret, time)
+            return response
+    except:
+        return HttpResponseRedirect('/cooking/register/')
+
+def login_redir(request):
+    try:
+        username = request.POST['name']
+        password = request.POST['password']
+        try:
+            User = UserInfo.objects.get(user_name=username)
+            hasher = PBKDF2PasswordHasher()
+            password = hasher.verify(password=password, encoded=User.user_password)
+
+            if password == True:
+                response = HttpResponseRedirect('/cooking/')
+                response.set_cookie('wasauthorised', User.user_secret)
+                if request.COOKIES.get('livetime'):
+                    time = int(request.COOKIES.get('livetime'))
+                    response.set_cookie('wasauthorised', User.user_secret, time)
+                else:
+                    response.set_cookie('wasauthorised', User.user_secret, time)
+                return response
+
+            else:
+                password_error = "Неверный пароль"
+                return render(request, 'cooking/login.html', {'password_error': password_error})
+        except:
+            user_error = "Неверное имя пользователя "
+            return render(request, 'cooking/login.html', {'user_error': user_error})
+    except:
+        return HttpResponseRedirect('/cooking/login/')
+
+def exit(request):
+    response = HttpResponseRedirect('/cooking/')
+    response.delete_cookie('wasauthorised')
+
+    return response
+
+def deletesave(request):
+    response = HttpResponseRedirect('/cooking/')
+    secret = request.COOKIES.get('wasauthorised')
+    User = UserInfo.objects.get(user_secret=secret)
+
+    if not User.user_soup_list == " ":
+        User.user_soup_list = " "
+        User.save()
+
+    return response

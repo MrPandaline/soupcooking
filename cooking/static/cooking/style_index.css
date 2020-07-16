@@ -1,6 +1,6 @@
 div.main-inner{
 
-	width: 98%;
+	width: 99%;
     padding: 1%;
     text-align: center;
     position: relative;
@@ -12,7 +12,7 @@ div.main-outer{
     padding: 5px;
 	background-color: rgba(0, 0, 0, 0.4);
 	width: 98%;
-	height: 99%;
+	height: 89%;
 	display: block;
 
 }

@@ -53,6 +53,26 @@
     </head>
 
     <body>
+        <header>
+
+            <div id="logo">
+                <a href="{% url 'cooking:index' %}">SoupCookers</a>
+            </div>
+
+
+            <div id="account-name" class="account-info">
+                {% if username %}
+                <a href="{% url 'cooking:login' %}">{{username}}</a>
+                {% else %}
+                <a href="{% url 'cooking:login' %}">Войти в аккаунт</a>
+                {% endif %}
+            </div>
+            <div id="account-img" class="account-info">
+                <div id="img"></div>
+            </div>
+
+        </header>
+
         {% if ingredient_list %}
             <div class="ingredient-block">
 

@@ -1,0 +1,59 @@
+div.main{
+    text-align: center;
+    margin-top: 10%;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+
+}
+
+form{
+    display: grid;
+    grid-template-areas:"block-label block-label"
+                        "name-label name"
+                        "password-label password"
+                        "submit submit";
+    width: 50%;
+    margin: 10px auto;
+    padding: 5px 40px ;
+    border: dashed 3px #2e3436 ;
+    border-radius: 4px;
+
+}
+
+span#block-label{
+    grid-area: block-label;
+    margin: 5px auto;
+
+}
+
+span#name-label{
+    grid-area: name-label;
+    margin: 5px auto;
+    ;
+
+}
+
+input#name{
+    grid-area: name;
+    margin: 5px auto;
+
+}
+
+span#password-label{
+    grid-area: password-label;
+    margin: 5px auto;
+    text-align: right;
+
+}
+
+input#password{
+    grid-area: password;
+    margin: 5px auto;
+
+}
+
+input#submit{
+    grid-area: submit;
+    margin: 5px auto;
+
+}

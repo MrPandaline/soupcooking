@@ -1,0 +1,56 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'cooking/style.css' %}">
+<link rel="stylesheet" href="{% static 'cooking/style_login.css' %}">
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>Вход на сайт</title>
+
+        <script>
+            window.onload = function () {
+
+                if (document.getElementById('PasswordError')) {
+                    document.getElementById('PasswordError').style.color = 'red'
+                    document.getElementById('password').style.borderColor = 'red'
+                    document.getElementById('password-label').style.color = 'red'
+                }
+                if (document.getElementById('UserError')) {
+                    document.getElementById('UserError').style.color = 'red'
+                    document.getElementById('name').style.borderColor = 'red'
+                    document.getElementById('name-label').style.color = 'red'
+                }
+            }
+
+        </script>
+    </head>
+
+    <body>
+
+        <div class="main">
+             {% if user_error %}
+                <a id="UserError">{{ user_error }}</a>
+            {% endif %}
+
+            {% if password_error %}
+                <a id="PasswordError">{{ password_error }}</a>
+            {% endif %}
+
+            <form action="{% url 'cooking:login-redirect' %}" method="post">
+            {% csrf_token %}
+                <span id="block-label">Войти в аккаунт</span><br>
+                <span id="name-label">Имя пользователя</span>
+                <input type="text" name="name" id="name" required><br>
+
+                <span id="password-label">Пароль:</span>
+                <input type="password" name="password" id="password" required>
+                <input type="submit" id="submit">
+
+            </form>
+            <a href="{% url 'cooking:auth' %}">У меня нет аккаунта</a>
+            <a href="{% url 'cooking:index' %}">Вернутья на главную</a>
+        </div>
+    </body>
+</html>

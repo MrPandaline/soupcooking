@@ -1,0 +1,36 @@
+div.main{
+    text-align: center;
+    background-color: rgba(0, 0, 0, .2);
+    padding: 10px;
+
+}
+
+div#live-time{
+    border-top: 2px dashed black;
+    border-bottom: 2px dashed black;
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 8px ;
+
+}
+
+div#auth-exit{
+    border-bottom: 2px dashed black;
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+
+}
+
+div#auth-delete-save{
+    border-bottom: 2px dashed black;
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+
+}
