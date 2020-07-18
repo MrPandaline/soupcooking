@@ -24,6 +24,14 @@ def IndexView(request):
         secret = request.COOKIES.get('wasauthorised')
         User = UserInfo.objects.get(user_secret=secret)
         UserName = User.user_name
+        response = HttpResponse()
+        
+        if request.COOKIES.get('livetime'):
+            time = int(request.COOKIES.get('livetime'))
+            response.set_cookie('wasauthorised', secret, time)
+        else:
+            response.set_cookie('wasauthorised', secret, 1209600)
+
         if not User.user_soup_list == " ":
             cookie = "."
             return render(request, 'cooking/index.html', {"cookie": cookie, 'username': UserName})

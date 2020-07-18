@@ -37,7 +37,7 @@
                 <span id="ingredlabel1">Первый ингредиент</span>
                 <span id="ingredlabel2">Второй ингредиент</span>
             {% csrf_token %}
-                <select name="ingredient1" size="3" id="ingred1">
+                <select name="ingredient1" size="3" id="ingred1" required>
                 {% for ingredient in ingredient_list %}
                     <option value="{{ ingredient.id }}">{{ingredient.ingredient_name}}</option>
 
@@ -54,7 +54,7 @@
                 <span id="countlabel2">Кол-во II ингредиента</span>
                 <input name="count1" type="number" min="1" value="1" placeholder="Кол-во I ингредиента" id="count1" required>
                 <input name="count2" type="number" min="1" value="1" placeholder="Кол-во II ингредиента" id="count2" required>
-                <input type="submit" name="soup" id="ingredient" value="Рассчитать характеристики">
+                <input type="submit" name="soup" id="input-submit" value="Рассчитать характеристики">
             </form><br>
             <a href="/cooking" class="redirect_back" >Вернуться обратно</a>
         </div>

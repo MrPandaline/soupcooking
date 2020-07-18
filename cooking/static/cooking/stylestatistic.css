@@ -1,9 +1,12 @@
 #soupcolor1{
-    width: 10%;
-    height: 5%;
+    width: 80px;
+    height: 40px;
     position: relative;
     margin:10px auto;
-
+    background:url("SOUP.png");
+    background-size: contain;
+    border: solid saddlebrown 2px;
+    border-radius: 15px;
 }
 
 #soupcolor{

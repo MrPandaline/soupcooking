@@ -73,8 +73,8 @@ input#count2{
 
 }
 
-input#ingredient{
+input#input-submit{
     grid-area: post-5;
-    margin: auto;
+    margin: 10px auto;
 
 }
