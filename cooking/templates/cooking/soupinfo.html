@@ -51,21 +51,20 @@
 
     {% else %}
         <div class="main">
-            <a id="soupcolor">{{SoupColor}}</a>
+            <a id="soupcolor">{{soupColor}}</a>
 
             <a>Ваш супь: </a>
             <div id="soupcolor1"></div><br>
 
-            <a>Эффект супа: {{SoupEffect}}</a><br>
-            <a>Длительность эффектов супа: {{SoupDuration}} секунд</a><br>
-            <a>Редкость супа: {{SoupRarely}}</a><br>
-            <a>Масса супа: {{SoupWeight}}</a><br>
-            <a>Крутизна супа: {{SoupSteep}}</a><br>
+            <a>Эффект супа: {{soupEffect}}</a><br>
+            <a>Длительность эффектов супа: {{effectDuration}} секунд</a><br>
+            <a>Редкость супа: {{rarely}}</a><br>
+            <a>Масса супа: {{soupWeight}}</a><br>
 
             {% if statisticSave %}
                 <form action="{% url 'cooking:addstatistic' %}" method="post">
                 {% csrf_token %}
-                    <input name="statistic" id="lol" value="'{{SoupEffect}}', '{{SoupDuration}}', '{{SoupRarely}}', '{{SoupWeight}}', '{{SoupColor}}, {{SoupSteep}}'"><br>
+                    <input name="statistic" id="lol" value="('{{soupEffect}}', '{{effectDuration}}', '{{rarely}}', '{{soupWeight}}', '{{soupColor}})"><br>
                     <input type="submit" id="input-submit" name="soup" value="Сохранить результат">
 
                 </form>

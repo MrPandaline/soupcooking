@@ -19,7 +19,5 @@ urlpatterns = [
     path('register/redir/', views.auth_redir, name='auth-redirect'),
     path('login/redir/', views.login_redir, name='login-redirect'),
     path('exit/', views.exit, name='exit'),
-    path('deletesoup/', views.deletesoup, name='deletesoup'),
-    path('deletesoup1/', views.deletesoup1, name='deletesoup1'),
-    path('complexsoup/', views.createcomplex, name='complexsoup'),
+    path('deletesave/', views.deletesave, name='deletesave'),
 ]

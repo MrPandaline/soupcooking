@@ -25,14 +25,14 @@ def IndexView(request):
         User = UserInfo.objects.get(user_secret=secret)
         UserName = User.user_name
         response = HttpResponse()
-
+        
         if request.COOKIES.get('livetime'):
             time = int(request.COOKIES.get('livetime'))
             response.set_cookie('wasauthorised', secret, time)
         else:
             response.set_cookie('wasauthorised', secret, 1209600)
 
-        if "," in User.user_soup_list:
+        if not User.user_soup_list == " ":
             cookie = "."
             return render(request, 'cooking/index.html', {"cookie": cookie, 'username': UserName})
         else:
@@ -44,7 +44,6 @@ def IndexView(request):
     else:
         return render(request, 'cooking/index.html')
 
-
 def IngredientsView(request):
     template_name = 'cooking/ingredients.html'
 
@@ -53,7 +52,7 @@ def IngredientsView(request):
         secret = request.COOKIES.get('wasauthorised')
         User = UserInfo.objects.get(user_secret=secret)
         UserName = User.user_name
-        return render(request, template_name, {'ingredient_list': ingredient_list, 'username': UserName})
+        return render(request, template_name, {'ingredient_list': ingredient_list, 'username':UserName})
 
     return render(request, template_name, {'ingredient_list': ingredient_list})
 
@@ -66,7 +65,7 @@ def MakeSoupView(request):
         secret = request.COOKIES.get('wasauthorised')
         User = UserInfo.objects.get(user_secret=secret)
         UserName = User.user_name
-        return render(request, template_name, {'ingredient_list': ingredient_list, 'username': UserName})
+        return render(request, template_name, {'ingredient_list': ingredient_list, 'username':UserName})
 
     return render(request, template_name, {'ingredient_list': ingredient_list})
 
@@ -79,6 +78,7 @@ def soupinfo(request):
     ingrCoeff_1 = ingredient_1.ingredient_coefficient
     count_1 = int(request.POST['count1'])
 
+
     ingredient_2 = Ingredient.objects.get(pk=request.POST['ingredient2'])
     ingrEffect_2 = ingredient_2.ingredient_effect
     ingr2_color = ingredient_2.ingredient_color
@@ -86,7 +86,7 @@ def soupinfo(request):
     ingrCoeff_2 = ingredient_2.ingredient_coefficient
     count_2 = int(request.POST['count2'])
 
-    mass = ingrWeight_1 * count_1 + ingrWeight_2 * count_2 + 5
+    mass = ingrWeight_1*count_1 + ingrWeight_2*count_2 + 5
 
     if mass > 205 or mass < 25:
 
@@ -106,39 +106,21 @@ def soupinfo(request):
         if Rarely <= 50:
             soupRarely = "Common"
             effectduration = effectDuration
-            soupsteep = random.triangular(0.0001, 0.0129)
-            soupsteep = round(soupsteep, 4)
-
         if Rarely > 50 and Rarely <= 75:
             soupRarely = "Rare"
-            effectduration = effectDuration + int(round(effectDuration / 10))
-            soupsteep = random.triangular(0.013, 0.026)
-            soupsteep = round(soupsteep, 4)
-
+            effectduration = effectDuration + effectDuration / 10
         if Rarely > 75 and Rarely <= 87:
             soupRarely = "Epic"
-            effectduration = effectDuration + int(round(effectDuration / 5))
-            soupsteep = random.triangular(0.26, 0.1)
-            soupsteep = round(soupsteep, 4)
-
+            effectduration = effectDuration + effectDuration / 5
         if Rarely > 87 and Rarely <= 94:
-            soupRarely = "Legendary"
-            effectduration = effectDuration + int(round(effectDuration / 2))
-            soupsteep = random.triangular(0.101, 0.159)
-            soupsteep = round(soupsteep, 4)
-
+            soupRarely = "Ledendary"
+            effectduration = effectDuration + effectDuration / 2
         if Rarely > 94 and Rarely < 100:
             soupRarely = "Ancient"
-            effectduration = effectDuration + int(round(effectDuration / 4 * 3))
-            soupsteep = random.triangular(0.16, 0.199)
-            soupsteep = round(soupsteep, 4)
-
+            effectduration = effectDuration + effectDuration / 4 * 3
         if Rarely == 100:
             soupRarely = "Divine"
             effectduration = effectDuration * 2
-            soupsteep = random.triangular(0.2, 0.26)
-            soupsteep = round(soupsteep, 4)
-
 
         EffectChance = random.randint(1, 6)
 
@@ -155,6 +137,9 @@ def soupinfo(request):
         ingredient2_mass = ingrWeight_2 * count_2
         ingrediens_mass = ingredient1_mass + ingredient2_mass
 
+
+
+
         R_1 = int(ingr1_color[0:2], 16) * ingredient1_mass
         G_1 = int(ingr1_color[2:4], 16) * ingredient1_mass
         B_1 = int(ingr1_color[4:], 16) * ingredient1_mass
@@ -163,49 +148,50 @@ def soupinfo(request):
         G_2 = int(ingr2_color[2:4], 16) * ingredient2_mass
         B_2 = int(ingr2_color[4:], 16) * ingredient2_mass
 
+
         if round((R_1 + R_2) / ingrediens_mass) <= 15:
             Soup_R = '0' + hex(round((R_1 + R_2) / ingrediens_mass))
         else:
             Soup_R = hex(round((R_1 + R_2) / ingrediens_mass))
+
 
         if round((G_1 + G_2) / ingrediens_mass) <= 15:
             Soup_G = '0' + hex(round((G_1 + G_2) / ingrediens_mass))
         else:
             Soup_G = hex(round((G_1 + G_2) / ingrediens_mass))
 
+
         if round((B_1 + B_2) / ingrediens_mass) <= 15:
             Soup_B = '0' + hex(round((B_1 + B_2) / ingrediens_mass))
         else:
             Soup_B = hex(round((B_1 + B_2) / ingrediens_mass))
 
+
+
         SoupColor = Soup_R + Soup_G + Soup_B
         SoupColor = SoupColor.replace("0x", "")
 
-        statistic = "Сохранить результат"
 
-        soupsteep = str(soupsteep)
+        statistic = "Сохранить результат"
 
         if request.COOKIES.get('wasauthorised'):
             secret = request.COOKIES.get('wasauthorised')
             User = UserInfo.objects.get(user_secret=secret)
             UserName = User.user_name
-            return render(request, 'cooking/soupinfo.html', {'SoupColor': SoupColor,
-                                                             'SoupDuration': effectduration,
-                                                             'SoupRarely': soupRarely,
-                                                             'SoupEffect': soupEffect,
-                                                             'SoupWeight': mass,
+            return render(request, 'cooking/soupinfo.html', {'soupColor': SoupColor,
+                                                             'effectDuration': effectduration,
+                                                             'rarely': soupRarely,
+                                                             'soupEffect': soupEffect,
+                                                             'soupWeight': mass,
                                                              'statisticSave': statistic,
-                                                             'SoupSteep': soupsteep,
                                                              'username': UserName})
 
-        return render(request, 'cooking/soupinfo.html', {'SoupColor': SoupColor,
-                                                         'EffectDuration': effectduration,
-                                                         'SoupRarely': soupRarely,
-                                                         'SoupEffect': soupEffect,
-                                                         'SoupWeight': mass,
-                                                         'statisticSave': statistic,
-                                                         'SoupSteep': soupsteep})
-
+        return render(request, 'cooking/soupinfo.html', {'soupColor': SoupColor,
+                                                         'effectDuration': effectduration,
+                                                         'rarely': soupRarely,
+                                                         'soupEffect': soupEffect,
+                                                         'soupWeight': mass,
+                                                         'statisticSave': statistic})
 
 def addstatistic(request):
     if request.POST.get('livetime'):
@@ -219,33 +205,11 @@ def addstatistic(request):
         if request.COOKIES.get('wasauthorised'):
             User = UserInfo.objects.get(user_secret=request.COOKIES.get('wasauthorised'))
             text = request.POST['statistic']
-            if "," in User.user_soup_list:
-                soup_list = User.user_soup_list
-                soup_list = soup_list.split(",")
-                soup_count = len(soup_list) / 6
-                print(len(soup_list))
-                if soup_count == 2:
-                    del soup_list[0:6]
-                    text = text.split(",")
-                    soup_list = soup_list + text
-                    soup_list = ",".join(soup_list)
-                    User.user_soup_list = soup_list
-                    User.save()
-
-                elif soup_count == 1:
-                    text = text.split(",")
-                    soup_list = soup_list + text
-                    soup_list = ",".join(soup_list)
-                    User.user_soup_list = soup_list
-                    User.save()
-
-            else:
-                print(text)
-                User.user_soup_list = text
-                User.save()
-
+            User.user_soup_list = text
+            User.save()
             response = HttpResponseRedirect('/cooking/')
             return response
+
         else:
             text = request.POST['statistic']
             text = text.replace('"', '')
@@ -257,7 +221,6 @@ def addstatistic(request):
                 response.set_cookie('usersoup', text)
             return response
 
-
 def resetcookies(request):
     if request.COOKIES.get('usersoup'):
         response = HttpResponseRedirect('/cooking/')
@@ -266,7 +229,6 @@ def resetcookies(request):
 
     else:
         return HttpResponseRedirect('/cooking/')
-
 
 @require_POST
 @csrf_exempt
@@ -308,10 +270,8 @@ def api(request):
     # In case we receive an event that's not ping or push
     return HttpResponse(status=204)
 
-
 def main(request):
     return HttpResponseRedirect('cooking/')
-
 
 def statistic(request):
     if request.COOKIES.get('wasauthorised'):
@@ -321,56 +281,26 @@ def statistic(request):
         UserName = User.user_name
         if text == " ":
             error_message = "Нет сохранённого супа"
-            return render(request, 'cooking/statistic.html', {'error_message': error_message, 'username': UserName})
+            return render(request, 'cooking/statistic.html', {'error_message': error_message, 'username':UserName})
         else:
-            text1 = text.replace("'", '')
-            res = text1.split(",")
-            if len(res) == 6:
-                soupEffect = res[0]
-                effectduration = res[1]
-                soupRarely = res[2]
-                mass = res[3]
-                SoupColor = res[4]
-                soupsteep = res[5]
-                print(len(res))
+            text = text.replace('\054', ',')
+            text = text.replace('"', '')
+            res = [element.strip("'()") for element in text.split(", ")]
+            soupEffect = res[0]
+            effectduration = res[1]
+            soupRarely = res[2]
+            mass = res[3]
+            SoupColor = res[4]
 
-                return render(request, 'cooking/statistic.html', {'soupColor': SoupColor,
-                                                                  'effectDuration': effectduration,
-                                                                  'rarely': soupRarely,
-                                                                  'soupEffect': soupEffect,
-                                                                  'soupWeight': mass,
-                                                                  'soupSteep': soupsteep,
-                                                                  'username': UserName})
 
-            if len(res) == 12:
-                soupEffect = res[0]
-                effectduration = res[1]
-                soupRarely = res[2]
-                mass = res[3]
-                SoupColor = res[4]
-                soupsteep = res[5]
 
-                soupEffect1 = res[6]
-                effectduration1 = res[7]
-                soupRarely1 = res[8]
-                mass1 = res[9]
-                SoupColor1 = res[10]
-                soupsteep1 = res[11]
 
-                return render(request, 'cooking/statistic.html', {'soupColor': SoupColor,
-                                                                  'effectDuration': effectduration,
-                                                                  'rarely': soupRarely,
-                                                                  'soupEffect': soupEffect,
-                                                                  'soupWeight': mass,
-                                                                  'soupSteep': soupsteep,
-                                                                  'username': UserName,
-                                                                  'soupColor1': SoupColor1,
-                                                                  'effectDuration1': effectduration1,
-                                                                  'rarely1': soupRarely1,
-                                                                  'soupEffect1': soupEffect1,
-                                                                  'soupWeight1': mass1,
-                                                                  'soupSteep1': soupsteep1,
-                                                                  })
+            return render(request, 'cooking/statistic.html', {'soupColor': SoupColor,
+                                                              'effectDuration': effectduration,
+                                                              'rarely': soupRarely,
+                                                              'soupEffect': soupEffect,
+                                                              'soupWeight': mass,
+                                                              'username': UserName})
 
     else:
         if not request.COOKIES.get('usersoup'):
@@ -387,13 +317,11 @@ def statistic(request):
             soupRarely = res[2]
             mass = res[3]
             SoupColor = res[4]
-            soupsteep = res[5]
             return render(request, 'cooking/statistic.html', {'soupColor': SoupColor,
                                                               'effectDuration': effectduration,
                                                               'rarely': soupRarely,
                                                               'soupEffect': soupEffect,
-                                                              'soupWeight': mass,
-                                                              'soupSteep': soupsteep})
+                                                              'soupWeight': mass,})
 
 
 def settings(request):
@@ -402,28 +330,33 @@ def settings(request):
     else:
         soupsave = ""
 
+    soupsaveacc = ""
     if request.COOKIES.get('wasauthorised'):
         secret = request.COOKIES.get('wasauthorised')
         wasauthorised = "exist"
         user = UserInfo.objects.get(user_secret=secret)
-        userName = user.user_name
+        userName= user.user_name
+        if not user.user_soup_list == " ":
+            soupsaveacc = "exist"
+        else:
+            soupsaveacc = ""
 
         return render(request, 'cooking/settings.html', {'soupsave': soupsave,
                                                          'wasauthorised': wasauthorised,
+                                                         'soupsaveacc': soupsaveacc,
                                                          'username': userName})
 
     else:
         wasauthorised = ""
 
     return render(request, 'cooking/settings.html', {'soupsave': soupsave,
-                                                     'wasauthorised': wasauthorised})
-
+                                                     'wasauthorised': wasauthorised,
+                                                     'soupsaveacc': soupsaveacc})
 
 def auth(request):
     if request.COOKIES.get('wasauthorised'):
         return HttpResponseRedirect('/cooking/')
     return render(request, 'cooking/auth.html')
-
 
 def login(request):
     if request.COOKIES.get('wasauthorised'):
@@ -447,11 +380,14 @@ def auth_redir(request):
             minlength_error = "Пароль слишком короткий, он должен содержать минимум 8 символов"
             return render(request, 'cooking/auth.html', {'minlength_error': minlength_error})
 
+
         try:
             commonpass.validate(User_password)
         except:
             common_error = "Пароль слишком простой"
             return render(request, 'cooking/auth.html', {'common_error': common_error})
+
+
 
         hasher = PBKDF2PasswordHasher()
         salt = get_random_string(12, "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890")
@@ -462,7 +398,7 @@ def auth_redir(request):
         else:
             secret = get_random_string(50, 'qwertyuiopasdfghjlkzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!@#$%^&*()_-')
             Userinfo = UserInfo(user_name=User_name, user_img=" ", user_email=User_email, user_password=User_password,
-                                user_soup_list=" ", user_secret=secret)
+                                    user_soup_list=" ", user_secret=secret)
             Userinfo.save()
             response = HttpResponseRedirect('/cooking/')
             if request.COOKIES.get('livetime'):
@@ -473,7 +409,6 @@ def auth_redir(request):
             return response
     except:
         return HttpResponseRedirect('/cooking/register/')
-
 
 def login_redir(request):
     try:
@@ -503,208 +438,19 @@ def login_redir(request):
     except:
         return HttpResponseRedirect('/cooking/login/')
 
-
 def exit(request):
     response = HttpResponseRedirect('/cooking/')
     response.delete_cookie('wasauthorised')
 
     return response
 
-
-def deletesoup(request):
+def deletesave(request):
     response = HttpResponseRedirect('/cooking/')
-    if request.COOKIES.get('wasauthorised'):
-        secret = request.COOKIES.get('wasauthorised')
-        User = UserInfo.objects.get(user_secret=secret)
-
-        if not User.user_soup_list == " ":
-            souplist = User.user_soup_list
-            souplist = souplist.split(',')
-            del souplist[0:6]
-            souplist = ",".join(souplist)
-            User.user_soup_list = souplist
-            User.save()
-
-        return response
-
-    else:
-        return response
-
-
-def deletesoup1(request):
-    response = HttpResponseRedirect('/cooking/')
-    if request.COOKIES.get('wasauthorised'):
-        secret = request.COOKIES.get('wasauthorised')
-        User = UserInfo.objects.get(user_secret=secret)
-
-        if not User.user_soup_list == " ":
-            souplist = User.user_soup_list
-            souplist = souplist.split(',')
-            del souplist[6:12]
-            souplist = ",".join(souplist)
-            User.user_soup_list = souplist
-            User.save()
-
-        return response
-
-    else:
-        return response
-
-def createcomplex(request):
-
     secret = request.COOKIES.get('wasauthorised')
     User = UserInfo.objects.get(user_secret=secret)
-    souplist = User.user_soup_list
-    souplist = souplist.replace("'", '')
-    res = souplist.split(",")
-    print(res)
-    soupEffect = res[0]
-    effectduration = res[1]
-    soupRarely = res[2]
-    mass = int(res[3])
-    SoupColor = res[4]
-    soupsteep = res[5]
 
-    soupEffect1 = res[6]
-    effectduration1 = res[7]
-    soupRarely1 = res[8]
-    mass1 = int(res[9])
-    SoupColor1 = res[10]
-    soupsteep1 = res[11]
+    if not User.user_soup_list == " ":
+        User.user_soup_list = " "
+        User.save()
 
-    #Расчёт цвета
-
-    soup_mass = mass + mass1
-
-    R_1 = int(SoupColor[0:2], 16) * mass
-    G_1 = int(SoupColor[2:4], 16) * mass
-    B_1 = int(SoupColor[4:], 16) * mass
-
-    R_2 = int(SoupColor1[0:2], 16) * mass1
-    G_2 = int(SoupColor1[2:4], 16) * mass1
-    B_2 = int(SoupColor1[4:], 16) * mass1
-
-    if round((R_1 + R_2) / soup_mass) <= 15:
-        Soup_R = '0' + hex(round((R_1 + R_2) / soup_mass))
-    else:
-        Soup_R = hex(round((R_1 + R_2) / soup_mass))
-
-    if round((G_1 + G_2) / soup_mass) <= 15:
-        Soup_G = '0' + hex(round((G_1 + G_2) / soup_mass))
-    else:
-        Soup_G = hex(round((G_1 + G_2) / soup_mass))
-
-    if round((B_1 + B_2) / soup_mass) <= 15:
-        Soup_B = '0' + hex(round((B_1 + B_2) / soup_mass))
-    else:
-        Soup_B = hex(round((B_1 + B_2) / soup_mass))
-
-    # Окончание (Вывод)
-
-    SoupColor = Soup_R + Soup_G + Soup_B
-    SoupColor = SoupColor.replace("0x", "")
-
-    #Расчёт редкости
-
-    rarely_list = ['Common', 'Rare', 'Epic', ' Legendary', 'Ancient', 'Divine']
-    for i in range(0, len(rarely_list)):
-        if soupRarely in rarely_list[i]:
-            rarely = i
-            break
-    for i in range(0, len(rarely_list)):
-        if soupRarely1 in rarely_list[i]:
-            rarely1 = i
-            break
-
-    if rarely == rarely1:
-        SoupRarely = rarely_list[rarely]
-
-    elif rarely != rarely1:
-        if rarely < rarely1:
-            SoupRarelyIndex = rarely + round(abs(rarely - rarely1) / 2)
-        else:
-            SoupRarelyIndex = rarely1 + round(abs(rarely - rarely1) / 2)
-        chanse = random.randint(0,1)
-        if chanse == 1:
-            SoupRarely = rarely_list[SoupRarelyIndex+1]
-        else:
-            SoupRarely = rarely_list[SoupRarelyIndex]
-
-    #Расчёт эффектов
-
-    ingr = Ingredient.objects.get(ingredient_effect=soupEffect)
-    ingr_coeff = ingr.ingredient_coefficient
-
-    ingr1 = Ingredient.objects.get(ingredient_effect=soupEffect1)
-    ingr_coeff1 = ingr1.ingredient_coefficient
-
-    if ingr_coeff > ingr_coeff1 and mass > 1.3 * mass1:
-        SoupEffect = soupEffect
-    else:
-        SoupEffect = soupEffect
-
-    #Расчёт длительности
-
-        SoupDuration = round((effectduration + effectduration1) / 2)
-
-    #Paсчёт крутизны
-
-    if SoupRarelyIndex >= 3:
-        if round((ingr_coeff1 + ingr_coeff) / 2) > 2:
-            chanse = random.randint(0, 6)
-            if chanse == 1:
-                if soupsteep > soupsteep1:
-
-                    SoupSteep = soupsteep + round(random.triangular(0.08, 0.16), 4)
-                else:
-                    SoupSteep = soupsteep1 + round(random.triangular(0.07, 0.16), 4)
-
-            else:
-                if soupsteep > soupsteep1:
-
-                    SoupSteep = soupsteep + round(random.triangular(0.08, 0.1), 4)
-                else:
-                    SoupSteep = soupsteep1 + round(random.triangular(0.07, 0.1), 4)
-
-        else:
-            Noise = round(random.triangular(0.06, 0.095), 4)
-            if soupsteep > soupsteep1:
-                SoupSteep = soupsteep + Noise
-            else:
-                SoupSteep = soupsteep1 + Noise
-
-    else:
-        SoupSteep = round((soupsteep + soupsteep1) / 2, 4)
-        Chanse = random.randint(0,3)
-
-        for i in range(len(rarely_list)):
-            if soupRarely in rarely_list[i]:
-                rarely = i
-                break
-
-        if rarely_list[rarely] >= 4:
-            a = 0.09
-            b = 0.11
-
-        else:
-            a = 0.001
-            b = 0.06
-
-        Noise = round(random.triangular(a, b), 4)
-        if Chanse <= 2:
-            SoupSteep = SoupSteep - Noise
-        else:
-            SoupSteep = SoupSteep + Noise
-
-        UserName = User.user_name
-
-    souplist = " "
-
-    return render(request, '/cooking/soupinfo', {'SoupColor': SoupColor,
-                                                        'SoupDuration': SoupDuration,
-                                                        'SoupRarely': SoupRarely,
-                                                        'SoupEffect': SoupEffect,
-                                                        'SoupWeight': mass,
-                                                        'SoupSteep': SoupSteep,
-                                                        'username': UserName})
-
+    return response

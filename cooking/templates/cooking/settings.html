@@ -55,6 +55,12 @@
                     <a href="{% url 'cooking:exit' %}">Выйти из аккаунта</a>
                 </div>
 
+                {% if soupsaveacc == "exist" %}
+                    <div id="auth-delete-save" class="content">
+                        <a href="{% url 'cooking:deletesave' %}">Удалить сохранение</a>
+                    </div>
+
+                {% endif %}
             {% endif %}
             <a href="{% url 'cooking:index' %}" class="redirect_back" >Вернуться обратно</a>
         </div>
