@@ -1,4 +1,4 @@
-#soupcolor1{
+.color{
     width: 80px;
     height: 40px;
     position: relative;
@@ -9,7 +9,7 @@
     border-radius: 15px;
 }
 
-#soupcolor{
+.soupcolor{
     display: none;
 
 }
@@ -18,5 +18,25 @@ div.main{
     text-align: center;
     background-color: rgba(0, 0, 0, .2);
     padding: 10px;
+
+}
+
+div#auth-delete-soup1{
+    border-bottom: 2px dashed black;
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+
+}
+
+div#auth-delete-soup{
+    border-bottom: 2px dashed black;
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 8px;
+    padding-bottom: 10px;
 
 }
