@@ -143,9 +143,9 @@ def soupinfo(request):
         EffectChance = random.randint(1, 6)
 
         if EffectChance < 6 and ingrCoeff_1 > ingrCoeff_2 and ingrWeight_2 * count_2 > 1.5 * ingrWeight_1 * count_1:
-            soupEffect = ingrEffect_1 + ", " + ingrEffect_2
+            soupEffect = ingrEffect_1 + ingrEffect_2
         elif EffectChance < 6 and ingrCoeff_1 < ingrCoeff_2 and ingrWeight_1 * count_1 > 1.5 * ingrWeight_2 * count_2:
-            soupEffect = ingrEffect_1 + ", " + ingrEffect_2
+            soupEffect = ingrEffect_1 + ingrEffect_2
         elif EffectChance < 6 and ingrCoeff_1 > ingrCoeff_2 and ingrWeight_2 * count_2 < 1.5 * ingrWeight_1 * count_1:
             soupEffect = ingrEffect_1
         else:
