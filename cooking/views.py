@@ -219,33 +219,38 @@ def addstatistic(request):
         if request.COOKIES.get('wasauthorised'):
             User = UserInfo.objects.get(user_secret=request.COOKIES.get('wasauthorised'))
             text = request.POST['statistic']
-            if "," in User.user_soup_list:
-                soup_list = User.user_soup_list
-                soup_list = soup_list.split(",")
-                soup_count = len(soup_list) / 6
-                print(len(soup_list))
-                if soup_count == 2:
-                    del soup_list[0:6]
-                    text = text.split(",")
-                    soup_list = soup_list + text
-                    soup_list = ",".join(soup_list)
-                    User.user_soup_list = soup_list
-                    User.save()
-
-                elif soup_count == 1:
-                    text = text.split(",")
-                    soup_list = soup_list + text
-                    soup_list = ",".join(soup_list)
-                    User.user_soup_list = soup_list
-                    User.save()
-
-            else:
-                print(text)
+            try:
+                request.POST['complex']
                 User.user_soup_list = text
                 User.save()
+                response = HttpResponseRedirect('/cooking/')
+                return response
+            except:
+                if "," in User.user_soup_list:
+                    soup_list = User.user_soup_list
+                    soup_list = soup_list.split(",")
+                    soup_count = len(soup_list) / 6
+                    if soup_count == 2:
+                        del soup_list[0:6]
+                        text = text.split(",")
+                        soup_list = soup_list + text
+                        soup_list = ",".join(soup_list)
+                        User.user_soup_list = soup_list
+                        User.save()
 
-            response = HttpResponseRedirect('/cooking/')
-            return response
+                    elif soup_count == 1:
+                        text = text.split(",")
+                        soup_list = soup_list + text
+                        soup_list = ",".join(soup_list)
+                        User.user_soup_list = soup_list
+                        User.save()
+
+                else:
+                    User.user_soup_list = text
+                    User.save()
+
+                response = HttpResponseRedirect('/cooking/')
+                return response
         else:
             text = request.POST['statistic']
             text = text.replace('"', '')
@@ -323,6 +328,7 @@ def statistic(request):
             error_message = "Нет сохранённого супа"
             return render(request, 'cooking/statistic.html', {'error_message': error_message, 'username': UserName})
         else:
+
             text1 = text.replace("'", '')
             res = text1.split(",")
             if len(res) == 6:
@@ -332,7 +338,6 @@ def statistic(request):
                 mass = res[3]
                 SoupColor = res[4]
                 soupsteep = res[5]
-                print(len(res))
 
                 return render(request, 'cooking/statistic.html', {'soupColor': SoupColor,
                                                                   'effectDuration': effectduration,
@@ -557,24 +562,31 @@ def createcomplex(request):
     souplist = User.user_soup_list
     souplist = souplist.replace("'", '')
     res = souplist.split(",")
-    print(res)
+
     soupEffect = res[0]
-    effectduration = res[1]
+    effectduration = int(res[1])
     soupRarely = res[2]
+    soupRarely = soupRarely.replace(' ', '')
     mass = int(res[3])
     SoupColor = res[4]
-    soupsteep = res[5]
+    soupsteep = float(res[5])
 
     soupEffect1 = res[6]
-    effectduration1 = res[7]
+    effectduration1 = int(res[7])
     soupRarely1 = res[8]
+    soupRarely1 = soupRarely1.replace(' ', '')
     mass1 = int(res[9])
     SoupColor1 = res[10]
-    soupsteep1 = res[11]
+    soupsteep1 = float(res[11])
+
+    User.user_soup_list = ' '
+    User.save()
 
     #Расчёт цвета
 
     soup_mass = mass + mass1
+    SoupColor = SoupColor.replace(' ', '')
+    SoupColor1 = SoupColor1.replace(' ', '')
 
     R_1 = int(SoupColor[0:2], 16) * mass
     G_1 = int(SoupColor[2:4], 16) * mass
@@ -584,17 +596,17 @@ def createcomplex(request):
     G_2 = int(SoupColor1[2:4], 16) * mass1
     B_2 = int(SoupColor1[4:], 16) * mass1
 
-    if round((R_1 + R_2) / soup_mass) <= 15:
+    if round((R_1 + R_2) / soup_mass) < 15:
         Soup_R = '0' + hex(round((R_1 + R_2) / soup_mass))
     else:
         Soup_R = hex(round((R_1 + R_2) / soup_mass))
 
-    if round((G_1 + G_2) / soup_mass) <= 15:
+    if round((G_1 + G_2) / soup_mass) < 15:
         Soup_G = '0' + hex(round((G_1 + G_2) / soup_mass))
     else:
         Soup_G = hex(round((G_1 + G_2) / soup_mass))
 
-    if round((B_1 + B_2) / soup_mass) <= 15:
+    if round((B_1 + B_2) / soup_mass) < 15:
         Soup_B = '0' + hex(round((B_1 + B_2) / soup_mass))
     else:
         Soup_B = hex(round((B_1 + B_2) / soup_mass))
@@ -606,18 +618,20 @@ def createcomplex(request):
 
     #Расчёт редкости
 
-    rarely_list = ['Common', 'Rare', 'Epic', ' Legendary', 'Ancient', 'Divine']
-    for i in range(0, len(rarely_list)):
+    rarely_list = ['Common', 'Rare', 'Epic', 'Legendary', 'Ancient', 'Divine']
+    for i in range(0, len(rarely_list)-1):
         if soupRarely in rarely_list[i]:
             rarely = i
             break
-    for i in range(0, len(rarely_list)):
+
+    for i in range(0, len(rarely_list)-1):
         if soupRarely1 in rarely_list[i]:
             rarely1 = i
             break
 
     if rarely == rarely1:
         SoupRarely = rarely_list[rarely]
+        SoupRarelyIndex = rarely
 
     elif rarely != rarely1:
         if rarely < rarely1:
@@ -652,37 +666,37 @@ def createcomplex(request):
     if SoupRarelyIndex >= 3:
         if round((ingr_coeff1 + ingr_coeff) / 2) > 2:
             chanse = random.randint(0, 6)
-            if chanse == 1:
+            if chanse <= 2:
                 if soupsteep > soupsteep1:
 
-                    SoupSteep = soupsteep + round(random.triangular(0.08, 0.16), 4)
+                    SoupSteep = round(soupsteep + random.triangular(0.08, 0.16), 4)
                 else:
-                    SoupSteep = soupsteep1 + round(random.triangular(0.07, 0.16), 4)
+                    SoupSteep = round(soupsteep1 + random.triangular(0.07, 0.16), 4)
 
             else:
                 if soupsteep > soupsteep1:
 
-                    SoupSteep = soupsteep + round(random.triangular(0.08, 0.1), 4)
+                    SoupSteep = round(soupsteep + random.triangular(0.08, 0.1), 4)
                 else:
-                    SoupSteep = soupsteep1 + round(random.triangular(0.07, 0.1), 4)
+                    SoupSteep = round(soupsteep1 + random.triangular(0.07, 0.1), 4)
 
         else:
             Noise = round(random.triangular(0.06, 0.095), 4)
             if soupsteep > soupsteep1:
-                SoupSteep = soupsteep + Noise
+                SoupSteep = round(soupsteep + Noise, 4)
             else:
-                SoupSteep = soupsteep1 + Noise
+                SoupSteep = round(soupsteep1 + Noise, 4)
 
     else:
         SoupSteep = round((soupsteep + soupsteep1) / 2, 4)
-        Chanse = random.randint(0,3)
+        Chanse = random.randint(0, 3)
 
         for i in range(len(rarely_list)):
             if soupRarely in rarely_list[i]:
                 rarely = i
                 break
 
-        if rarely_list[rarely] >= 4:
+        if rarely >= 4:
             a = 0.09
             b = 0.11
 
@@ -691,20 +705,27 @@ def createcomplex(request):
             b = 0.06
 
         Noise = round(random.triangular(a, b), 4)
-        if Chanse <= 2:
-            SoupSteep = SoupSteep - Noise
+        if Chanse == 3:
+            SoupSteep = abs(round(SoupSteep - Noise, 4))
         else:
-            SoupSteep = SoupSteep + Noise
+            SoupSteep = round(SoupSteep + Noise, 4)
 
         UserName = User.user_name
 
+    SoupSteep = str(SoupSteep)
+
     souplist = " "
 
-    return render(request, '/cooking/soupinfo', {'SoupColor': SoupColor,
+    statistic = "Сохранить результат"
+    lol = 'lol'
+
+    return render(request, 'cooking/soupinfo.html', {'SoupColor': SoupColor,
                                                         'SoupDuration': SoupDuration,
                                                         'SoupRarely': SoupRarely,
                                                         'SoupEffect': SoupEffect,
                                                         'SoupWeight': mass,
                                                         'SoupSteep': SoupSteep,
-                                                        'username': UserName})
+                                                        'username': UserName,
+                                                        'statisticSave': statistic,
+                                                        'lol': lol,})
 

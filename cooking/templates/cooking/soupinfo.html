@@ -65,9 +65,11 @@
             {% if statisticSave %}
                 <form action="{% url 'cooking:addstatistic' %}" method="post">
                 {% csrf_token %}
-                    <input name="statistic" id="lol" value="'{{SoupEffect}}', '{{SoupDuration}}', '{{SoupRarely}}', '{{SoupWeight}}', '{{SoupColor}}, {{SoupSteep}}'"><br>
+                    <input name="statistic" id="lol" value="'{{SoupEffect}}', '{{SoupDuration}}', '{{SoupRarely}}', '{{SoupWeight}}', '{{SoupColor}}', '{{SoupSteep}}'"><br>
+                    {% if lol %}
+                        <input name='complex' style="display: none;" value="qqq">
+                    {% endif %}
                     <input type="submit" id="input-submit" name="soup" value="Сохранить результат">
-
                 </form>
 
 
