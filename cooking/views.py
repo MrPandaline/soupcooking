@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from .models import Ingredient
 from .models import UserInfo
-from django.views import generic
+# from django.views import generic
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError, HttpResponseRedirect
 from django.conf import settings
 import random
@@ -97,7 +97,7 @@ def soupinfo(request):
 
         if mass <= 85:
             effectDuration = 20
-        elif mass > 85 and mass <= 145:
+        elif 85 < mass <= 145:
             effectDuration = 40
         else:
             effectDuration = 60
@@ -109,36 +109,35 @@ def soupinfo(request):
             soupsteep = random.triangular(0.0001, 0.0129)
             soupsteep = round(soupsteep, 4)
 
-        if Rarely > 50 and Rarely <= 75:
+        elif 50 < Rarely <= 75:
             soupRarely = "Rare"
             effectduration = effectDuration + int(round(effectDuration / 10))
             soupsteep = random.triangular(0.013, 0.026)
             soupsteep = round(soupsteep, 4)
 
-        if Rarely > 75 and Rarely <= 87:
+        elif 75 < Rarely <= 87:
             soupRarely = "Epic"
             effectduration = effectDuration + int(round(effectDuration / 5))
             soupsteep = random.triangular(0.26, 0.1)
             soupsteep = round(soupsteep, 4)
 
-        if Rarely > 87 and Rarely <= 94:
+        elif 87 < Rarely <= 94:
             soupRarely = "Legendary"
             effectduration = effectDuration + int(round(effectDuration / 2))
             soupsteep = random.triangular(0.101, 0.159)
             soupsteep = round(soupsteep, 4)
 
-        if Rarely > 94 and Rarely < 100:
+        elif 94 < Rarely < 100:
             soupRarely = "Ancient"
             effectduration = effectDuration + int(round(effectDuration / 4 * 3))
             soupsteep = random.triangular(0.16, 0.199)
             soupsteep = round(soupsteep, 4)
 
-        if Rarely == 100:
+        else:
             soupRarely = "Divine"
             effectduration = effectDuration * 2
             soupsteep = random.triangular(0.2, 0.26)
             soupsteep = round(soupsteep, 4)
-
 
         EffectChance = random.randint(1, 6)
 
@@ -181,7 +180,7 @@ def soupinfo(request):
         SoupColor = Soup_R + Soup_G + Soup_B
         SoupColor = SoupColor.replace("0x", "")
 
-        statistic = "Сохранить результат"
+        statistic_save = "Сохранить результат"
 
         soupsteep = str(soupsteep)
 
@@ -194,7 +193,7 @@ def soupinfo(request):
                                                              'SoupRarely': soupRarely,
                                                              'SoupEffect': soupEffect,
                                                              'SoupWeight': mass,
-                                                             'statisticSave': statistic,
+                                                             'statisticSave': statistic_save,
                                                              'SoupSteep': soupsteep,
                                                              'username': UserName})
 
@@ -489,7 +488,7 @@ def login_redir(request):
             hasher = PBKDF2PasswordHasher()
             password = hasher.verify(password=password, encoded=User.user_password)
 
-            if password == True:
+            if password:
                 response = HttpResponseRedirect('/cooking/')
                 response.set_cookie('wasauthorised', User.user_secret)
                 if request.COOKIES.get('livetime'):
@@ -555,6 +554,7 @@ def deletesoup1(request):
     else:
         return response
 
+
 def createcomplex(request):
 
     secret = request.COOKIES.get('wasauthorised')
@@ -582,7 +582,7 @@ def createcomplex(request):
     User.user_soup_list = ' '
     User.save()
 
-    #Расчёт цвета
+    # Расчёт цвета
 
     soup_mass = mass + mass1
     SoupColor = SoupColor.replace(' ', '')
@@ -616,7 +616,7 @@ def createcomplex(request):
     SoupColor = Soup_R + Soup_G + Soup_B
     SoupColor = SoupColor.replace("0x", "")
 
-    #Расчёт редкости
+    # Расчёт редкости
 
     rarely_list = ['Common', 'Rare', 'Epic', 'Legendary', 'Ancient', 'Divine']
     for i in range(0, len(rarely_list)-1):
@@ -629,7 +629,7 @@ def createcomplex(request):
             rarely1 = i
             break
 
-    if rarely == rarely1:
+    if rarely1 == rarely:
         SoupRarely = rarely_list[rarely]
         SoupRarelyIndex = rarely
 
@@ -638,13 +638,13 @@ def createcomplex(request):
             SoupRarelyIndex = rarely + round(abs(rarely - rarely1) / 2)
         else:
             SoupRarelyIndex = rarely1 + round(abs(rarely - rarely1) / 2)
-        chanse = random.randint(0,1)
+        chanse = random.randint(0, 1)
         if chanse == 1:
             SoupRarely = rarely_list[SoupRarelyIndex+1]
         else:
             SoupRarely = rarely_list[SoupRarelyIndex]
 
-    #Расчёт эффектов
+    # Расчёт эффектов
 
     ingr = Ingredient.objects.get(ingredient_effect=soupEffect)
     ingr_coeff = ingr.ingredient_coefficient
@@ -657,11 +657,11 @@ def createcomplex(request):
     else:
         SoupEffect = soupEffect
 
-    #Расчёт длительности
+    # Расчёт длительности
 
         SoupDuration = round((effectduration + effectduration1) / 2)
 
-    #Paсчёт крутизны
+    # Paсчёт крутизны
 
     if SoupRarelyIndex >= 3:
         if round((ingr_coeff1 + ingr_coeff) / 2) > 2:
@@ -714,8 +714,6 @@ def createcomplex(request):
 
     SoupSteep = str(SoupSteep)
 
-    souplist = " "
-
     statistic = "Сохранить результат"
     lol = 'lol'
 
@@ -727,5 +725,5 @@ def createcomplex(request):
                                                         'SoupSteep': SoupSteep,
                                                         'username': UserName,
                                                         'statisticSave': statistic,
-                                                        'lol': lol,})
+                                                        'lol': lol})
 
