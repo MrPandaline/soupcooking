@@ -199,7 +199,7 @@ def soupinfo(request):
                                                              'username': UserName})
 
         return render(request, 'cooking/soupinfo.html', {'SoupColor': SoupColor,
-                                                         'EffectDuration': effectduration,
+                                                         'SoupDuration': effectduration,
                                                          'SoupRarely': soupRarely,
                                                          'SoupEffect': soupEffect,
                                                          'SoupWeight': mass,
