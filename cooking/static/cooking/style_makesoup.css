@@ -76,5 +76,6 @@ input#count2{
 input#input-submit{
     grid-area: post-5;
     margin: 10px auto;
+    padding-down: 10px;
 
 }
